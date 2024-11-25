@@ -14,8 +14,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="hydrated" lang="en">
-      <body className={`hydrated antialiased`}>
+    <html suppressHydrationWarning className="hydrated" lang="en">
+      <body suppressHydrationWarning className={`hydrated antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>
