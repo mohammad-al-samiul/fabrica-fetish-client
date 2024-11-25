@@ -4,3 +4,7 @@
 body {
   @apply bg-background text-black;
 }
+
+.p-0 {
+  padding: 0 !important;
+}

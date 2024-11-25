@@ -1,7 +1,8 @@
 import { SwitchProps, useSwitch, VisuallyHidden } from "@nextui-org/react";
 import { MoonIcon } from "./MoonIcon";
 import { SunIcon } from "./SunIcon";
-
+import { MoonFilledIcon, SunFilledIcon } from "../icons";
+import clsx from "clsx";
 export default function ThemeSwitch(props: SwitchProps) {
   const {
     Component,
@@ -20,19 +21,22 @@ export default function ThemeSwitch(props: SwitchProps) {
         <div
           {...getWrapperProps()}
           className={slots.wrapper({
-            class: [
-              "w-8 h-8",
+            class: clsx([
+              "w-auto h-auto",
+              "bg-transparent",
+              "rounded-lg",
               "flex items-center justify-center",
-              "rounded-lg bg-default-100 hover:bg-default-200",
-            ],
+              "group-data-[selected=true]:bg-transparent",
+              "!text-default-500",
+              "pt-px",
+              "px-0",
+              "mx-0",
+            ]),
           })}
         >
-          {isSelected ? <SunIcon /> : <MoonIcon />}
+          {isSelected ? <SunFilledIcon /> : <MoonFilledIcon />}
         </div>
       </Component>
-      <p className="text-default-500 select-none">
-        Lights: {isSelected ? "on" : "off"}
-      </p>
     </div>
   );
 }

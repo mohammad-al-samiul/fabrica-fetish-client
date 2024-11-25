@@ -1,4 +1,6 @@
+"use client";
 import { siteConfig } from "@/config/site";
+
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -12,30 +14,30 @@ import {
   NavbarMenuItem,
 } from "@nextui-org/react";
 import NextLink from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { link as linkStyles } from "@nextui-org/theme";
 import ThemeSwitch from "@/components/ui/theme-switcher";
 import NavbarDropdown from "./NavbarDropdown";
-// import {
-//   Navbar as NextUINavbar,
-//   NavbarContent,
-//   NavbarMenu,
-//   NavbarMenuToggle,
-//   NavbarBrand,
-//   NavbarItem,
-//   NavbarMenuItem,
-// } from "@nextui-org/navbar";
+
 export default function Navbar() {
-  const user = {
-    email: "alsam",
-  };
+  // const user = {
+  //   email: "alsam",
+  // };
+  const user = undefined;
+
+  useEffect(() => {
+    const header = document.querySelector("header");
+    if (header) {
+      header.classList.add("p-0");
+    }
+  }, []);
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
+    <NextUINavbar maxWidth="full" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Image src="" width={50} height={50} alt="logo" />
+            {/* <Image src="" width={50} height={50} alt="logo" /> */}
             <p className="font-bold text-inherit">ACME</p>
           </NextLink>
         </NavbarBrand>
@@ -87,7 +89,7 @@ export default function Navbar() {
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <ThemeSwitch />
+        {/* <ThemeSwitch /> */}
         <NavbarMenuToggle />
       </NavbarContent>
 
