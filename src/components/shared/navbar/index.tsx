@@ -29,7 +29,7 @@ export default function Navbar() {
   useEffect(() => {
     const header = document.querySelector("header");
     if (header) {
-      header.classList.add("p-0");
+      header.classList.add("nav-zero-padding");
     }
   }, []);
   return (
