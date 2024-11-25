@@ -6,6 +6,7 @@ interface IProps {
   };
 }
 
-export default function ProductDetails({ params }: IProps) {
-  return <div>Product Details {params.productId}</div>;
+export default async function ProductDetails({ params }: IProps) {
+  const { productId } = await params;
+  return <div>Product Details {productId}</div>;
 }
