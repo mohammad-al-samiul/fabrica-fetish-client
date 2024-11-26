@@ -1,7 +1,6 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 import envConfig from "./envConfig";
-import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 
 const axiosInstance = axios.create({
   baseURL: envConfig.baseApi,
