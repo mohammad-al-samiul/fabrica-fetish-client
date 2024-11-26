@@ -8,8 +8,18 @@ export interface IDecodedTokenProps {
   _id: string;
   name: string;
   email: string;
-  mobileNumber: string;
+  profileImg: string;
   role: "admin" | "user";
-  status: string;
-  profilePhoto?: string; // Optional, as it might not always be present
+  phone?: string; // Optional, as it might not always be present
+}
+
+export interface IUser {
+  _id: string;
+  name: string;
+  role: string;
+  email: string;
+  phone?: number;
+  profileImg?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

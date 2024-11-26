@@ -16,12 +16,19 @@ interface AuthResponse {
   message?: string;
 }
 
-export const registerUser = async (userData: FieldValues) => {
+export const registerUser = async (userData: FormData) => {
   try {
     const { data } = await axiosInstance.post<AuthResponse>(
       "/auth/register",
-      userData
+      userData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
+
+    console.log("data", data);
 
     if (!data.success && !data.data) {
       throw new Error(data.message);
@@ -74,10 +81,8 @@ export const getCurrentUser = async () => {
       _id: decodedToken._id,
       name: decodedToken.name,
       email: decodedToken.email,
-      mobileNumber: decodedToken.mobileNumber,
       role: decodedToken.role,
-      status: decodedToken.status,
-      profilePhoto: decodedToken.profilePhoto,
+      profileImg: decodedToken.profileImg,
     };
   }
 

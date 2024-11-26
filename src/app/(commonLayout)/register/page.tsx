@@ -7,19 +7,29 @@ import { useUserRegistration } from "@/hooks/auth.hook";
 import registerValidationSchema from "@/schemas/register.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Link } from "@nextui-org/react";
-import React, { useState } from "react";
+import React from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 
 export default function Register() {
   const { mutate: handleUserRegistration, isPending } = useUserRegistration();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log("user", data);
-    const userInfo = {
-      ...data,
-      profilePhoto: "http://surl.li/dsoezh",
-    };
+    const { phone } = data;
 
-    // handleUserRegistration(userInfo);
+    const { photo, ...userData } = data;
+
+    const formData = new FormData();
+
+    const userInfo = {
+      ...userData,
+    };
+    userInfo.phone = Number(phone);
+
+    formData.append("data", JSON.stringify(userInfo));
+    formData.append("image", photo);
+
+    console.log(formData.get("image"));
+    console.log(formData.get("data"));
+    handleUserRegistration(formData);
   };
 
   return (

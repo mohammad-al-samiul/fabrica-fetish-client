@@ -19,12 +19,10 @@ import clsx from "clsx";
 import { link as linkStyles } from "@nextui-org/theme";
 import ThemeSwitch from "@/components/ui/theme-switcher";
 import NavbarDropdown from "./NavbarDropdown";
+import { useUser } from "@/context/user.provider";
 
 export default function Navbar() {
-  // const user = {
-  //   email: "alsam",
-  // };
-  const user = undefined;
+  const { user } = useUser();
 
   useEffect(() => {
     const header = document.querySelector("header");

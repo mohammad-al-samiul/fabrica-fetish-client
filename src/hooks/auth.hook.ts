@@ -8,9 +8,9 @@ import { loginUser, registerUser } from "../services/AuthService";
 export const useUserRegistration = () => {
   const router = useRouter();
 
-  return useMutation<any, Error, FieldValues>({
+  return useMutation({
     mutationKey: ["USER_REGISTRATION"],
-    mutationFn: async (userData) => {
+    mutationFn: async (userData: FormData) => {
       const user = await registerUser(userData);
 
       if (user) {

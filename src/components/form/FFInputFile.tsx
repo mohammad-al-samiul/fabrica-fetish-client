@@ -24,11 +24,11 @@ export default function FFInputFile({ label, name }: IFileProps) {
 
   // Check if the error is a valid message string
   const errorMessage = errors[name]?.message;
-
+  //console.log("image", imageFile);
   return (
     <div className="w-full">
       <input
-        {...register(name)}
+        {...register(name, { required: "Profile photo is required" })}
         type="file"
         id={name}
         onChange={handleFile}
