@@ -1,12 +1,57 @@
 "use client";
-
+import { CartContext } from "@/context/cart.provider";
 import { IProduct } from "@/types";
 import { Image } from "@nextui-org/react";
-import React from "react";
-import { boolean } from "zod";
+import { useRouter } from "next/navigation";
+import React, { useContext } from "react";
 
+interface CartItem extends IProduct {
+  quantity: number;
+}
 export default function CardDetails({ product }: { product: IProduct }) {
-  const handleCart = (item: any, isAdd?: boolean) => {};
+  const router = useRouter();
+  const cartContext = useContext(CartContext);
+
+  // Check if context is undefined and throw an error (or handle as needed)
+  if (!cartContext) {
+    throw new Error("CartContext is not available!");
+  }
+
+  const { setCarts } = cartContext;
+  const { category, description, image, price, title, rating } = product;
+
+  // Type for handleCart function
+  const handleCart = (product: IProduct, redirect?: boolean): void => {
+    const carts: CartItem[] = JSON.parse(localStorage.getItem("carts") || "[]");
+
+    const isProductExist = carts.find((item) => item._id === product._id);
+    if (isProductExist) {
+      const updatedProduct = carts.map((item) => {
+        if (item._id === product._id) {
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+      });
+
+      localStorage.setItem("carts", JSON.stringify(updatedProduct));
+    } else {
+      localStorage.setItem(
+        "carts",
+        JSON.stringify([...carts, { ...product, quantity: 1 }])
+      );
+
+      const updatedCart = JSON.parse(localStorage.getItem("carts") || "[]");
+      setCarts(updatedCart);
+    }
+
+    if (redirect) {
+      const updatedCart = JSON.parse(localStorage.getItem("carts") || "[]");
+      setCarts(updatedCart);
+
+      router.push("/carts");
+    }
+  };
+
   return (
     <div className="bg-white shadow-lg rounded-lg my-10">
       <div className="text-gray-600 body-font overflow-hidden">
@@ -18,7 +63,7 @@ export default function CardDetails({ product }: { product: IProduct }) {
                 width={400}
                 height={400}
                 alt="ecommerce"
-                className="w-full object-cover rounded"
+                className="w-full object-contain rounded"
                 src={product?.image}
               />
             </div>

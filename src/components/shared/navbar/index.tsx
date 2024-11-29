@@ -67,7 +67,7 @@ export default function Navbar() {
         {user?.email ? (
           <>
             <NavbarItem>
-              <Link href="/carts">
+              <NextLink href="/carts">
                 <label tabIndex={0} className="relative cursor-pointer">
                   <div className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-200">
                     <svg
@@ -89,7 +89,7 @@ export default function Navbar() {
                     </span>
                   </div>
                 </label>
-              </Link>
+              </NextLink>
             </NavbarItem>
             <NavbarItem className="hidden sm:flex gap-2">
               <NavbarDropdown />

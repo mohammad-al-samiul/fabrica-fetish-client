@@ -1,18 +1,98 @@
 "use client";
-import { Link } from "@nextui-org/react";
-import React from "react";
-import { IProduct } from "@/types";
 
-export default function Cart({ orders }: { orders: IProduct[] }) {
+import React, { useContext, useEffect, useState } from "react";
+import { IProduct } from "@/types";
+import { useRouter } from "next/navigation";
+import NextLink from "next/link";
+import { Image } from "@nextui-org/react";
+import { toast } from "sonner";
+import { CartContext } from "@/context/cart.provider";
+
+const CartPage = () => {
+  const [total, setTotal] = useState(0);
+  const router = useRouter();
+  const cartContext = useContext(CartContext);
+
+  if (!cartContext) {
+    throw new Error("CartContext is not available!");
+  }
+
+  const { setCarts } = cartContext;
+
+  const carts = JSON.parse(localStorage.getItem("carts") ?? "[]");
+
+  const handleProduct = () => {
+    localStorage.removeItem("carts");
+    toast.success("Successfully Purchase the Products");
+    setCarts([]);
+  };
+
+  useEffect(() => {
+    const total = carts.reduce((acc: any, item: IProduct) => {
+      return acc + item?.price * item?.quantity!;
+    }, 0);
+    setTotal(total);
+  }, [carts]);
+
+  const handleIncrement = (id: string) => {
+    console.log("incre", id);
+    const updateProduct = carts.map((item: IProduct) => {
+      if (item?._id === id) {
+        return {
+          ...item,
+          quantity: item?.quantity! + 1,
+        };
+      }
+      return item;
+    });
+
+    localStorage.setItem("carts", JSON.stringify(updateProduct));
+    router.push("/carts");
+  };
+
+  const handleDecrement = (id: string) => {
+    const updateProduct = carts.map((item: IProduct) => {
+      if (item?._id === id) {
+        return {
+          ...item,
+          quantity: item?.quantity! - 1,
+        };
+      }
+      return item;
+    });
+
+    localStorage.setItem("carts", JSON.stringify(updateProduct));
+    router.push("/carts");
+  };
+
+  const handleRemove = (id: string) => {
+    const products = carts.filter((item: IProduct) => item?._id !== id);
+
+    localStorage.setItem("carts", JSON.stringify(products));
+
+    // setCarts(products);
+
+    router.push("/carts");
+  };
+
   return (
-    <>
+    <div>
+      {!carts?.length && (
+        <>
+          <div className="font-bold text-center text-xl my-10">
+            Please select any product for purchasing
+          </div>
+        </>
+      )}
       <div className="bg-gray-100">
         <div className="container mx-auto mt-10">
           <div className="lg:flex shadow-md my-10">
             <div className="lg:w-3/4 bg-white px-10 py-10">
               <div className="flex justify-between border-b pb-8">
                 <h1 className="font-semibold text-2xl">Shopping Cart</h1>
-                <h2 className="font-semibold text-2xl">cart-length-0 Items</h2>
+                <h2 className="font-semibold text-2xl">
+                  {carts?.length} Items
+                </h2>
               </div>
               <div className="flex mt-10 mb-5">
                 <h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">
@@ -29,7 +109,7 @@ export default function Cart({ orders }: { orders: IProduct[] }) {
                 </h3>
               </div>
 
-              {[...Array(10)]?.map((cart, i) => {
+              {carts?.map((cart: any, i: string) => {
                 return (
                   <div
                     key={i}
@@ -37,7 +117,7 @@ export default function Cart({ orders }: { orders: IProduct[] }) {
                   >
                     <div className="flex w-2/5 items-center">
                       <div className="w-44">
-                        <img
+                        <Image
                           className="h-24"
                           src={cart?.image}
                           alt={cart?.title}
@@ -52,7 +132,7 @@ export default function Cart({ orders }: { orders: IProduct[] }) {
                           {cart?.category}{" "}
                         </span>
                         <p
-                          //onClick={() => handleRemove(cart?.id)}
+                          onClick={() => handleRemove(cart?._id)}
                           className="cursor-pointer font-semibold hover:text-red-500 text-gray-500 text-xs"
                         >
                           Remove
@@ -61,7 +141,7 @@ export default function Cart({ orders }: { orders: IProduct[] }) {
                     </div>
                     <div className="flex justify-center w-1/5">
                       <svg
-                        //onClick={() => handleDecrement(cart?.id)}
+                        onClick={() => handleDecrement(cart?._id)}
                         className="cursor-pointer fill-current text-gray-600 w-3"
                         viewBox="0 0 448 512"
                       >
@@ -72,11 +152,11 @@ export default function Cart({ orders }: { orders: IProduct[] }) {
                         className="mx-2 border text-center w-8"
                         type="text"
                         readOnly
-                        value={cart?.quantity ? cart?.quantity : 0}
+                        value={cart?.quantity}
                       />
 
                       <svg
-                        // onClick={() => handleIncrement(cart?.id)}
+                        onClick={() => handleIncrement(cart?._id)}
                         className="fill-current text-gray-600 w-3 cursor-pointer"
                         viewBox="0 0 448 512"
                       >
@@ -93,7 +173,7 @@ export default function Cart({ orders }: { orders: IProduct[] }) {
                 );
               })}
 
-              <Link
+              <NextLink
                 href={"/products"}
                 className="flex font-semibold text-indigo-600 text-sm mt-10"
               >
@@ -104,7 +184,7 @@ export default function Cart({ orders }: { orders: IProduct[] }) {
                   <path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" />
                 </svg>
                 Continue Shopping
-              </Link>
+              </NextLink>
             </div>
 
             <div id="summary" className="lg:w-1/4 px-8 py-10">
@@ -113,9 +193,11 @@ export default function Cart({ orders }: { orders: IProduct[] }) {
               </h1>
               <div className="flex justify-between mt-10 mb-5">
                 <span className="font-semibold text-sm uppercase">
-                  Items carts?.length
+                  Items {carts?.length}
                 </span>
-                <span className="font-semibold text-sm">total.toFixed(2)$</span>
+                <span className="font-semibold text-sm">
+                  {/* {total.toFixed(2)}$ */}$
+                </span>
               </div>
               <div>
                 <label className="font-medium inline-block mb-3 text-sm uppercase">
@@ -145,10 +227,10 @@ export default function Cart({ orders }: { orders: IProduct[] }) {
               <div className="border-t mt-8">
                 <div className="flex font-semibold justify-between py-6 text-sm uppercase">
                   <span>Total cost</span>
-                  <span>(total + 10).toFixed(2)</span>
+                  {/* <span>${(total + 10).toFixed(2)}</span> */}
                 </div>
                 <button
-                  // onClick={handleProduct}
+                  onClick={handleProduct}
                   className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full"
                 >
                   Checkout
@@ -158,6 +240,8 @@ export default function Cart({ orders }: { orders: IProduct[] }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
-}
+};
+
+export default CartPage;

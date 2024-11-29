@@ -1,6 +1,7 @@
 "use client";
 import { IProduct } from "@/types";
-import { Image, Link } from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
+import NextLink from "next/link";
 
 import React from "react";
 
@@ -36,12 +37,12 @@ export default function Card({ item }: { item: IProduct }) {
           <span className="text-lg font-bold text-gray-900 dark:text-white">
             ${item?.price}
           </span>
-          <Link
+          <NextLink
             href={`/products/${item._id}`}
-            className="text-white bg-default-800 hover:bg-default-900 focus:ring-4 focus:outline-none focus:ring-default-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-default-600 dark:hover:bg-default-700 dark:focus:ring-default-800"
+            className="text-white bg-default-800 hover:bg-default-900 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-default-600 dark:hover:bg-default-700"
           >
             Details
-          </Link>
+          </NextLink>
         </div>
       </div>
     </div>
