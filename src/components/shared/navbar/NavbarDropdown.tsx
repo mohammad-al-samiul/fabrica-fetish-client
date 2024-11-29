@@ -10,6 +10,7 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function NavbarDropdown() {
   const { setIsLoading: userLoading, user } = useUser();
@@ -22,6 +23,7 @@ export default function NavbarDropdown() {
   const handleLogout = () => {
     logout();
     userLoading(true);
+    toast.success("User Logged out successful!");
     if (protectedRoutes.some((route) => pathname.match(route))) {
       router.push("/");
     }
@@ -58,7 +60,12 @@ export default function NavbarDropdown() {
           >
             Setting
           </DropdownItem>
-          <DropdownItem key="delete" className="text-danger" color="danger">
+          <DropdownItem
+            onClick={handleLogout}
+            key="delete"
+            className="text-danger"
+            color="danger"
+          >
             Logout
           </DropdownItem>
         </DropdownMenu>
