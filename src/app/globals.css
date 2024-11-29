@@ -8,3 +8,7 @@ body {
 .nav-zero-padding {
   padding: 0 !important;
 }
+
+select option:hover {
+  background-color: #1a202c; /* bg-default-900 */
+}
