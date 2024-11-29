@@ -14,15 +14,24 @@ import {
   NavbarMenuItem,
 } from "@nextui-org/react";
 import NextLink from "next/link";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import clsx from "clsx";
 import { link as linkStyles } from "@nextui-org/theme";
 import ThemeSwitch from "@/components/ui/theme-switcher";
 import NavbarDropdown from "./NavbarDropdown";
 import { useUser } from "@/context/user.provider";
+import { CartContext } from "@/context/cart.provider";
 
 export default function Navbar() {
   const { user } = useUser();
+
+  const cartContext = useContext(CartContext);
+
+  if (!cartContext) {
+    throw new Error("CartContext is not available!");
+  }
+
+  const { carts } = cartContext;
 
   useEffect(() => {
     const header = document.querySelector("header");
@@ -85,7 +94,7 @@ export default function Navbar() {
                       />
                     </svg>
                     <span className="absolute top-0 right-0 bg-gray-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                      0
+                      {carts?.length}
                     </span>
                   </div>
                 </label>

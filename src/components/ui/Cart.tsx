@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { IProduct } from "@/types";
 import { useRouter } from "next/navigation";
 import NextLink from "next/link";
-import { Image } from "@nextui-org/react";
+import { Button, Image } from "@nextui-org/react";
 import { toast } from "sonner";
 import { CartContext } from "@/context/cart.provider";
 
@@ -21,7 +21,7 @@ const CartPage = () => {
 
   const carts = JSON.parse(localStorage.getItem("carts") ?? "[]");
 
-  const handleProduct = () => {
+  const handleRemoveAllProduct = () => {
     localStorage.removeItem("carts");
     toast.success("Successfully Purchase the Products");
     setCarts([]);
@@ -35,7 +35,6 @@ const CartPage = () => {
   }, [carts]);
 
   const handleIncrement = (id: string) => {
-    console.log("incre", id);
     const updateProduct = carts.map((item: IProduct) => {
       if (item?._id === id) {
         return {
@@ -65,12 +64,12 @@ const CartPage = () => {
     router.push("/carts");
   };
 
-  const handleRemove = (id: string) => {
+  const handleRemoveProduct = (id: string) => {
     const products = carts.filter((item: IProduct) => item?._id !== id);
 
     localStorage.setItem("carts", JSON.stringify(products));
 
-    // setCarts(products);
+    setCarts(products);
 
     router.push("/carts");
   };
@@ -133,7 +132,7 @@ const CartPage = () => {
                               {cart?.category}
                             </span>
                             <p
-                              onClick={() => handleRemove(cart?._id)}
+                              onClick={() => handleRemoveProduct(cart?._id)}
                               className="cursor-pointer font-semibold hover:text-red-500 text-gray-500 text-xs"
                             >
                               Remove
@@ -176,10 +175,10 @@ const CartPage = () => {
 
                   <NextLink
                     href={"/products"}
-                    className="flex font-semibold text-indigo-600 text-sm mt-10"
+                    className="flex font-semibold text-sm mt-10"
                   >
                     <svg
-                      className="fill-current mr-2 text-indigo-600 w-4"
+                      className="fill-current mr-2 text-default-800 w-4"
                       viewBox="0 0 448 512"
                     >
                       <path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" />
@@ -230,12 +229,9 @@ const CartPage = () => {
                       <span>Total cost</span>
                       <span>${(total + 10).toFixed(2)}</span>
                     </div>
-                    <button
-                      onClick={handleProduct}
-                      className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full"
-                    >
+                    <Button className="bg-default-800 font-semibold py-3 text-sm text-white uppercase w-full">
                       Checkout
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

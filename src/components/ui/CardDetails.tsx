@@ -1,7 +1,7 @@
 "use client";
 import { CartContext } from "@/context/cart.provider";
 import { IProduct } from "@/types";
-import { Image } from "@nextui-org/react";
+import { Button, Image } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 
@@ -18,7 +18,6 @@ export default function CardDetails({ product }: { product: IProduct }) {
   }
 
   const { setCarts } = cartContext;
-  const { category, description, image, price, title, rating } = product;
 
   // Type for handleCart function
   const handleCart = (product: IProduct, redirect?: boolean): void => {
@@ -62,7 +61,7 @@ export default function CardDetails({ product }: { product: IProduct }) {
               <Image
                 width={400}
                 height={400}
-                alt="ecommerce"
+                alt={product?.title}
                 className="w-full object-contain rounded"
                 src={product?.image}
               />
@@ -130,18 +129,18 @@ export default function CardDetails({ product }: { product: IProduct }) {
                 <span className="title-font font-medium text-2xl text-gray-900">
                   ${product?.price}
                 </span>
-                <button
+                <Button
                   onClick={() => handleCart(product, true)}
-                  className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                  className="flex ml-auto text-white bg-default-800 border-0 py-2 px-6 focus:outline-none hover:bg-default-900 rounded"
                 >
                   Buy Now
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => handleCart(product)}
                   className="flex ml-3 text-white bg-slate-500 border-0 py-2 px-6 focus:outline-none hover:bg-slate-600 rounded"
                 >
                   Add to Cart
-                </button>
+                </Button>
               </div>
             </div>
           </div>
