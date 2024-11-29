@@ -6,12 +6,12 @@ import { delay } from "@/utils/delay";
 const fetchOption = {
   next: {
     tags: ["products"],
+    cache: "no",
   },
 };
-export const getRecentPosts = async () => {
-  const res = await fetch(`${envConfig.baseApi}/items?limit=6`, fetchOption);
+export const getRecentProducts = async () => {
+  const res = await fetch(`${envConfig.baseApi}/products?limit=6`, fetchOption);
 
   delay(10000);
-
   return res.json();
 };

@@ -23,3 +23,18 @@ export interface IUser {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface IProduct {
+  _id: string;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image?: string;
+  rating: IRating;
+}
+
+export interface IRating {
+  rate: number;
+  count: number;
+}
