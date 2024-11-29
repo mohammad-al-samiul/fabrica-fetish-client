@@ -1,25 +1,30 @@
 "use client";
+
 import { IProduct } from "@/types";
 import { Image } from "@nextui-org/react";
 import React from "react";
+import { boolean } from "zod";
 
 export default function CardDetails({ product }: { product: IProduct }) {
+  const handleCart = (item: any, isAdd?: boolean) => {};
   return (
     <div className="bg-white shadow-lg rounded-lg my-10">
       <div className="text-gray-600 body-font overflow-hidden">
         <div className="container px-5 py-24 mx-auto">
-          <div className="flex flex-wrap lg:w-4/5 mx-auto">
-            {/* Image */}
+          <div className=" mx-auto flex flex-wrap">
+            {/* Image Section */}
             <div className="lg:w-1/3 w-full lg:h-auto object-cover object-center rounded">
               <Image
+                width={400}
+                height={400}
                 alt="ecommerce"
-                className="w-full h-auto lg:w-full lg:h-auto object-cover rounded"
+                className="w-full object-cover rounded"
                 src={product?.image}
               />
             </div>
 
-            {/* Text Content */}
-            <div className="lg:w-2/3 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+            {/* Text & Product Details Section */}
+            <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
                 {product?.category}
               </h2>
@@ -28,12 +33,12 @@ export default function CardDetails({ product }: { product: IProduct }) {
               </h1>
               <div className="flex mb-4">
                 <span className="flex items-center font-bold">
-                  Rating: {product.rating.rate}
+                  Rating: {product?.rating.rate}
                   <span className="text-gray-600 ml-3">
-                    {product.rating.count} Reviews
+                    {product?.rating.count} Reviews
                   </span>
                 </span>
-                <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
+                <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2">
                   <a className="text-gray-500">
                     <svg
                       fill="currentColor"
@@ -73,19 +78,21 @@ export default function CardDetails({ product }: { product: IProduct }) {
                 </span>
               </div>
               <p className="leading-relaxed">{product?.description}</p>
+
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5"></div>
+
               <div className="flex">
                 <span className="title-font font-medium text-2xl text-gray-900">
                   ${product?.price}
                 </span>
                 <button
-                  //   onClick={() => handleCart(product, true)}
-                  className="flex ml-auto text-white bg-default-800 border-0 py-2 px-6 focus:outline-none hover:bg-default-700 rounded"
+                  onClick={() => handleCart(product, true)}
+                  className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                 >
                   Buy Now
                 </button>
                 <button
-                  //   onClick={() => handleCart(product)}
+                  onClick={() => handleCart(product)}
                   className="flex ml-3 text-white bg-slate-500 border-0 py-2 px-6 focus:outline-none hover:bg-slate-600 rounded"
                 >
                   Add to Cart
