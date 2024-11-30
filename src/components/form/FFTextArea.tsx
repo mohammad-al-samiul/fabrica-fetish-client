@@ -10,6 +10,7 @@ export default function FFTextarea({
   name,
   label,
   variant = "bordered",
+  required = false,
 }: IProps) {
   const {
     register,
@@ -17,6 +18,14 @@ export default function FFTextarea({
   } = useFormContext();
 
   return (
-    <Textarea {...register(name)} label={label} minRows={6} variant={variant} />
+    <Textarea
+      {...register(name)}
+      errorMessage={errors[name] ? (errors[name].message as string) : ""}
+      isInvalid={!!errors[name]}
+      label={label}
+      required={required}
+      minRows={3}
+      variant={variant}
+    />
   );
 }

@@ -239,7 +239,11 @@ const CartPage = () => {
                       <span>Total cost</span>
                       <span>${(total + 10).toFixed(2)}</span>
                     </div>
-                    <Button className="bg-default-800 font-semibold py-3 text-sm text-white uppercase w-full">
+                    <Button
+                      as={NextLink}
+                      href="/checkout"
+                      className="bg-default-800 font-semibold py-3 text-sm text-white uppercase w-full"
+                    >
                       Checkout
                     </Button>
                   </div>

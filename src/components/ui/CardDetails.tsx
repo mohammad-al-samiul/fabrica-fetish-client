@@ -1,16 +1,16 @@
 "use client";
 import { CartContext } from "@/context/cart.provider";
+import { useUser } from "@/context/user.provider";
 import { IProduct } from "@/types";
 import { Button, Image } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { toast } from "sonner";
-import { Alert } from "antd";
+
 interface CartItem extends IProduct {
   quantity: number;
 }
 export default function CardDetails({ product }: { product: IProduct }) {
-  const router = useRouter();
   const cartContext = useContext(CartContext);
 
   // Check if context is undefined and throw an error (or handle as needed)
