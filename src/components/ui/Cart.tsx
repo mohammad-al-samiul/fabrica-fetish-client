@@ -7,6 +7,7 @@ import NextLink from "next/link";
 import { Button, Image } from "@nextui-org/react";
 import { toast } from "sonner";
 import { CartContext } from "@/context/cart.provider";
+import { calculateTotalAmount } from "@/utils/calculateAmount";
 
 const CartPage = () => {
   const [total, setTotal] = useState(0);
@@ -28,9 +29,10 @@ const CartPage = () => {
   };
 
   useEffect(() => {
-    const total = carts.reduce((acc: any, item: IProduct) => {
-      return acc + item?.price * item?.quantity!;
-    }, 0);
+    // const total = carts.reduce((acc: any, item: IProduct) => {
+    //   return acc + item?.price * item?.quantity!;
+    // }, 0);
+    const total = calculateTotalAmount(carts);
     setTotal(total);
   }, [carts]);
 

@@ -25,15 +25,15 @@ export interface IUser {
 }
 
 export interface IProduct {
-  _id: string;
+  _id?: string;
   title: string;
-  stock: string;
+  stock?: string;
   price: number;
-  quantity?: number;
-  description: string;
-  category: string;
+  quantity: number;
+  description?: string;
+  category?: string;
   image?: string;
-  rating: IRating;
+  rating?: IRating;
 }
 
 export interface IRating {
