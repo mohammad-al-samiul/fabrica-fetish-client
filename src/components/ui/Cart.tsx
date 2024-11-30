@@ -23,7 +23,7 @@ const CartPage = () => {
 
   const handleRemoveAllProduct = () => {
     localStorage.removeItem("carts");
-    toast.success("Successfully Purchase the Products");
+    toast.success("Successfully Remove all the Products");
     setCarts([]);
   };
 
@@ -70,8 +70,9 @@ const CartPage = () => {
     localStorage.setItem("carts", JSON.stringify(products));
 
     setCarts(products);
+    toast.success("Product has been removed successfully!");
 
-    router.push("/carts");
+    // router.push("/carts");
   };
 
   return (
@@ -80,6 +81,15 @@ const CartPage = () => {
         <>
           <div className="font-bold text-center text-xl my-10">
             Please select any product for purchasing
+            <div className="mt-2">
+              <Button
+                as={NextLink}
+                href="/products"
+                className="bg-default-800 text-default-50"
+              >
+                Products
+              </Button>
+            </div>
           </div>
         </>
       ) : (

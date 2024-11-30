@@ -4,7 +4,8 @@ import { IProduct } from "@/types";
 import { Button, Image } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
-
+import { toast } from "sonner";
+import { Alert } from "antd";
 interface CartItem extends IProduct {
   quantity: number;
 }
@@ -20,20 +21,17 @@ export default function CardDetails({ product }: { product: IProduct }) {
   const { setCarts } = cartContext;
 
   // Type for handleCart function
-  const handleCart = (product: IProduct, redirect?: boolean): void => {
+  const handleAddToCart = (product: IProduct, redirect?: boolean): void => {
     const carts: CartItem[] = JSON.parse(localStorage.getItem("carts") || "[]");
 
     const isProductExist = carts.find((item) => item._id === product._id);
-    if (isProductExist) {
-      const updatedProduct = carts.map((item) => {
-        if (item._id === product._id) {
-          return { ...item, quantity: item.quantity + 1 };
-        }
-        return item;
-      });
 
-      localStorage.setItem("carts", JSON.stringify(updatedProduct));
+    if (isProductExist) {
+      toast.error("Product already added in cart");
+
+      return;
     } else {
+      // Add the product to the cart
       localStorage.setItem(
         "carts",
         JSON.stringify([...carts, { ...product, quantity: 1 }])
@@ -41,13 +39,7 @@ export default function CardDetails({ product }: { product: IProduct }) {
 
       const updatedCart = JSON.parse(localStorage.getItem("carts") || "[]");
       setCarts(updatedCart);
-    }
-
-    if (redirect) {
-      const updatedCart = JSON.parse(localStorage.getItem("carts") || "[]");
-      setCarts(updatedCart);
-
-      router.push("/carts");
+      toast.success("Product added to cart successfully!");
     }
   };
 
@@ -130,17 +122,17 @@ export default function CardDetails({ product }: { product: IProduct }) {
                   ${product?.price}
                 </span>
                 <Button
-                  onClick={() => handleCart(product, true)}
+                  onClick={() => handleAddToCart(product)}
                   className="flex ml-auto text-white bg-default-800 border-0 py-2 px-6 focus:outline-none hover:bg-default-900 rounded"
-                >
-                  Buy Now
-                </Button>
-                <Button
-                  onClick={() => handleCart(product)}
-                  className="flex ml-3 text-white bg-slate-500 border-0 py-2 px-6 focus:outline-none hover:bg-slate-600 rounded"
                 >
                   Add to Cart
                 </Button>
+                {/* <Button
+                  onClick={() => handleAddToCart(product)}
+                  className="flex ml-3 text-white bg-slate-500 border-0 py-2 px-6 focus:outline-none hover:bg-slate-600 rounded"
+                >
+                  Add to Cart
+                </Button> */}
               </div>
             </div>
           </div>

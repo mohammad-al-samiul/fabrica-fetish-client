@@ -33,6 +33,8 @@ export default function Navbar() {
 
   const { carts } = cartContext;
 
+  const localCarts = JSON.parse(localStorage.getItem("carts") ?? "[]");
+
   useEffect(() => {
     const header = document.querySelector("header");
     if (header) {
@@ -94,7 +96,7 @@ export default function Navbar() {
                       />
                     </svg>
                     <span className="absolute top-0 right-0 bg-gray-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                      {carts?.length}
+                      {carts?.length ? carts?.length : localCarts.length}
                     </span>
                   </div>
                 </label>
