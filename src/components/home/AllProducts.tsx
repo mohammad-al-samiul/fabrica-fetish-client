@@ -13,7 +13,7 @@ export default function AllProducts({
 
   const categories = [
     "All",
-    ...new Set(allProducts.map((product: IProduct) => product.category)),
+    ...new Set(allProducts?.map((product: IProduct) => product.category)),
   ];
 
   //console.log("categories", categories);

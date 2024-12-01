@@ -11,7 +11,7 @@ import { IProduct } from "@/types";
 import { calculateTotalAmount } from "@/utils/calculateAmount";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 interface IOrderInfo {
   products: IProduct[];
@@ -25,7 +25,13 @@ export default function Checkout() {
   const [total, setTotal] = useState(0);
   const [products, setProducts] = useState<IProduct[]>([]);
   const { mutate: handleCreateOrder, isPending } = useCreateOrder();
+  const cartContext = useContext(CartContext);
 
+  if (!cartContext) {
+    throw new Error("CartContext is not available!");
+  }
+
+  const { setCarts } = cartContext;
   useEffect(() => {
     const storedProducts = JSON.parse(
       localStorage.getItem("carts") ?? "[]"
@@ -45,6 +51,11 @@ export default function Checkout() {
     setTotal(total);
   }, []);
 
+  const handleRemoveAllProduct = () => {
+    localStorage.removeItem("carts");
+    setCarts([]);
+  };
+
   const onSubmit = (data: FieldValues) => {
     const orderInfo: IOrderInfo = {
       products,
@@ -56,6 +67,7 @@ export default function Checkout() {
     };
     //console.log(orderInfo);
     handleCreateOrder(orderInfo);
+    handleRemoveAllProduct();
   };
   if (isLoading) {
     return <Loading />;

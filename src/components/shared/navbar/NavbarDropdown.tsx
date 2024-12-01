@@ -37,29 +37,15 @@ export default function NavbarDropdown() {
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
           <DropdownItem
-            key="profile"
-            onClick={() => handleNavigation("/profile")}
+            key="dashboard"
+            onClick={() => handleNavigation(`/${user?.role}/dashboard`)}
           >
-            Profile
+            Dashboard
           </DropdownItem>
-          <DropdownItem
-            key="post"
-            onClick={() => handleNavigation("/create-post")}
-          >
-            Create Post
+          <DropdownItem key="home" onClick={() => handleNavigation("/")}>
+            Home
           </DropdownItem>
-          <DropdownItem
-            key="request"
-            onClick={() => handleNavigation("/claim-request")}
-          >
-            Claim Request
-          </DropdownItem>
-          <DropdownItem
-            key="setting"
-            onClick={() => handleNavigation("/setting")}
-          >
-            Setting
-          </DropdownItem>
+
           <DropdownItem
             onClick={handleLogout}
             key="delete"

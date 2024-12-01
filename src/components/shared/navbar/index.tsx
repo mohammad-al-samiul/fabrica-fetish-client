@@ -36,7 +36,7 @@ export default function Navbar() {
   useEffect(() => {
     const savedCarts = JSON.parse(localStorage.getItem("carts") ?? "[]");
     setLocalCarts(savedCarts);
-  }, []);
+  }, [carts]);
 
   useEffect(() => {
     const header = document.querySelector("header");
