@@ -4,7 +4,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 import UserProvider from "@/context/user.provider";
-
+// import "antd/dist/reset.css";
 import CartProvier from "@/context/cart.provider";
 
 const queryClient = new QueryClient();

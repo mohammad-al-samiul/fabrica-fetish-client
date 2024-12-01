@@ -10,3 +10,13 @@ export const createOrder = async (orderData: SubmitHandler<FieldValues>) => {
     throw new Error(error);
   }
 };
+
+export const getAllOrder = async () => {
+  try {
+    const { data } = await axiosInstance.get("/orders");
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
