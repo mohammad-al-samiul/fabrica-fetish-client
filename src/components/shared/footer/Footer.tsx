@@ -8,7 +8,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-700 text-gray-300 py-12 mt-10">
+    <footer className="bg-gray-700 text-gray-200 py-12 mt-10">
       <div className="max-w-screen-xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Logo and Description */}
         <div>

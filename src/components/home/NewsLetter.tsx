@@ -2,7 +2,7 @@ import NextLink from "next/link";
 
 export default function NewsLetter() {
   return (
-    <section className="bg-gray-100 text-default-700 py-12 px-6">
+    <section className="bg-default-50 text-default-700 py-12 px-6">
       <div className="max-w-screen-lg mx-auto text-center">
         <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
         <p className="mb-6">

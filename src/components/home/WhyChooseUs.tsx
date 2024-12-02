@@ -12,7 +12,7 @@ import {
 
 export default function WhyChooseUs() {
   return (
-    <section className="mt-5 bg-gray-100 text-default-700 py-12  ">
+    <section className="mt-5 bg-default-50 text-default-700 py-12  ">
       <div className="max-w-screen-lg mx-auto px-6">
         <h2 className="text-3xl font-bold text-center mb-8">Why Choose Us?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
