@@ -37,7 +37,7 @@ export default function AllProducts({
     }
   }, [selectedCategory]);
   return (
-    <div className="mx-auto py-8">
+    <div className="mx-auto py-8 px-5">
       <h2 className="text-3xl font-bold mb-6 text-center">Our Products</h2>
 
       {/* Category Filter Dropdown */}

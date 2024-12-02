@@ -69,7 +69,7 @@ export default function Testimonial() {
         navigation
         pagination={{ clickable: true }}
         breakpoints={{
-          540: {
+          380: {
             slidesPerView: 1, // Mobile: 1 slide
           },
           768: {

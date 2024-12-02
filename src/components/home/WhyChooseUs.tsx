@@ -2,7 +2,7 @@ import React from "react";
 
 export default function WhyChooseUs() {
   return (
-    <section className="bg-blue-600 text-white py-12">
+    <section className="bg-default-700 text-white py-12">
       <div className="max-w-screen-lg mx-auto px-6">
         <h2 className="text-3xl font-bold text-center mb-8">Why Choose Us?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

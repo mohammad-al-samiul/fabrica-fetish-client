@@ -13,7 +13,7 @@ export default async function RecentProducts() {
         <h2 className="text-3xl font-bold text-center mb-8">
           Featured Products
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 items-center justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 items-center justify-center p-5">
           {products?.map((item: IProduct) => (
             <Card key={item._id} item={item} />
           ))}
