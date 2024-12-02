@@ -6,6 +6,9 @@ import Providers from "@/lib/Providers";
 export const metadata: Metadata = {
   title: "Fabrica Fetish",
   description: "An Ecommerce Website",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({

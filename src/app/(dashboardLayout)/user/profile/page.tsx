@@ -34,7 +34,7 @@ export default function Profile() {
               <div className="bg-[url('/bg_hero.svg')] bg-cover bg-no-repeat lg:h-[500px] py-8 px-4 flex flex-col justify-center items-center">
                 <Avatar
                   size={200}
-                  src={user?.profileImg || "/default-profile.png"}
+                  src={user?.profileImg || "https://shorturl.at/t76lD"}
                   alt="Profile Picture"
                 />
                 <div className="mt-6 space-y-3">

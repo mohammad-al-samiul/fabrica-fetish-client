@@ -38,7 +38,7 @@ export default function Login() {
       <div className="flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center">
         <h3 className="my-2 text-2xl font-bold">Login with Fabrica Fetish</h3>
         <p className="mb-4">Welcome Back! Let&lsquo;s Get Started</p>
-        <div className="w-[35%]">
+        <div className="w-[80%] px-3 lg:w-[35%]">
           <FFForm
             defaultValues={{
               email: "mir@gmail.com",

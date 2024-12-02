@@ -126,13 +126,28 @@ export default function Navbar() {
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
+        {user?.email ? (
+          <>
+            <NavbarItem className="sm:flex gap-2">
+              <NavbarDropdown />
+            </NavbarItem>
+          </>
+        ) : (
+          <>
+            <NavbarItem>
+              <Button as={NextLink} href={"/login"}>
+                Login
+              </Button>
+            </NavbarItem>
+          </>
+        )}
         {/* <ThemeSwitch /> */}
         <NavbarMenuToggle />
       </NavbarContent>
 
       <NavbarMenu>
         <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navItems.map((item, index) => (
+          {siteConfig.navMenuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link as={NextLink} color={"foreground"} href={item?.href}>
                 {item.label}

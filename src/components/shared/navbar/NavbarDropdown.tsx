@@ -33,7 +33,7 @@ export default function NavbarDropdown() {
     <div>
       <Dropdown>
         <DropdownTrigger>
-          <Avatar className="cursor-pointer" name="joe" src="" />
+          <Avatar className="cursor-pointer" src={user?.profileImg} />
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
           <DropdownItem

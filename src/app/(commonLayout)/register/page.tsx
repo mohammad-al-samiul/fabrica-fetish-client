@@ -10,6 +10,7 @@ import { Button } from "@nextui-org/react";
 import React from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import NextLink from "next/link";
+import FFTextarea from "@/components/form/FFTextArea";
 export default function Register() {
   const { mutate: handleUserRegistration, isPending } = useUserRegistration();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -36,10 +37,10 @@ export default function Register() {
     <>
       {isPending && <Loading />}
 
-      <div className="flex h-[calc(100vh-100px)] flex-col items-center justify-center mt-5">
+      <div className="flex h-[calc(100vh-100px)] flex-col items-center justify-center mt-5 mb-10">
         <h3 className="my-2 text-xl font-bold">Register with Fabrica Fetish</h3>
         <p className="mb-4">Welcome Back! Let&lsquo;s Get Started</p>
-        <div className="w-[35%]">
+        <div className="w-[80%] lg:w-[35%]">
           <FFForm
             defaultValues={{
               name: "Mir Hussain",
@@ -66,6 +67,9 @@ export default function Register() {
                 size="sm"
                 type="password"
               />
+            </div>
+            <div className="py-3">
+              <FFTextarea label="Address" name="address" size="sm" />
             </div>
             <div className="py-3">
               <FFInputFile label="Profile Photo" name="photo" size="sm" />

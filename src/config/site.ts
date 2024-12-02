@@ -40,16 +40,29 @@ export const siteConfig = {
       href: "/",
     },
     {
-      label: "Profile",
-      href: "/profile",
+      label: "Products",
+      href: "/products",
+    },
+
+    {
+      label: "FAQ",
+      href: "/faq",
     },
     {
-      label: "Dashboard",
-      href: "/dashboard",
+      label: "About",
+      href: "/about",
     },
     {
-      label: "Logout",
-      href: "/logout",
+      label: "Contact",
+      href: "/contact",
+    },
+    {
+      label: "Why Us",
+      href: "/why-choose-us",
+    },
+    {
+      label: "Testimonial",
+      href: "/testimonials",
     },
   ],
 };
