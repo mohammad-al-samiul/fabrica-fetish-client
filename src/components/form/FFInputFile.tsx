@@ -1,11 +1,17 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { IProps } from "./FFInput";
 import { useFormContext } from "react-hook-form";
-import { FaUpload, FaUserCircle } from "react-icons/fa"; // Import the profile photo icon
+import { FaUpload } from "react-icons/fa"; // Import the upload icon
 
-interface IFileProps extends IProps {}
+interface IFileProps extends IProps {
+  required?: boolean;
+}
 
-export default function FFInputFile({ label, name }: IFileProps) {
+export default function FFInputFile({
+  label,
+  name,
+  required = true,
+}: IFileProps) {
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const {
@@ -22,13 +28,18 @@ export default function FFInputFile({ label, name }: IFileProps) {
     }
   };
 
-  // Check if the error is a valid message string
+  // Apply the required validation only if required is true
+  const validationRules = required
+    ? { required: "Profile photo is required" }
+    : {};
+
+  // Check if there's an error and get the error message
   const errorMessage = errors[name]?.message;
-  //console.log("image", imageFile);
+
   return (
     <div className="w-full">
       <input
-        {...register(name, { required: "Profile photo is required" })}
+        {...register(name, validationRules)} // Apply validation conditionally
         type="file"
         id={name}
         onChange={handleFile}
@@ -40,7 +51,6 @@ export default function FFInputFile({ label, name }: IFileProps) {
       >
         {/* Upload Icon */}
         <FaUpload size={30} className="text-gray-400 mr-2" />
-
         {label}
       </label>
 

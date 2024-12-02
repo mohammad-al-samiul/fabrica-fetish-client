@@ -6,10 +6,10 @@ import Loading from "@/components/ui/Loading";
 import { useUserRegistration } from "@/hooks/auth.hook";
 import registerValidationSchema from "@/schemas/register.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Link } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import React from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-
+import NextLink from "next/link";
 export default function Register() {
   const { mutate: handleUserRegistration, isPending } = useUserRegistration();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -27,8 +27,8 @@ export default function Register() {
     formData.append("data", JSON.stringify(userInfo));
     formData.append("image", photo);
 
-    console.log(formData.get("image"));
-    console.log(formData.get("data"));
+    // console.log(formData.get("image"));
+    // console.log(formData.get("data"));
     handleUserRegistration(formData);
   };
 
@@ -37,8 +37,8 @@ export default function Register() {
       {isPending && <Loading />}
 
       <div className="flex h-[calc(100vh-100px)] flex-col items-center justify-center mt-5">
-        <h3 className="my-2 text-xl font-bold">Register with FoundX</h3>
-        <p className="mb-4">Help Lost Items Find Their Way Home</p>
+        <h3 className="my-2 text-xl font-bold">Register with Fabrica Fetish</h3>
+        <p className="mb-4">Welcome Back! Let&lsquo;s Get Started</p>
         <div className="w-[35%]">
           <FFForm
             defaultValues={{
@@ -80,7 +80,7 @@ export default function Register() {
             </Button>
           </FFForm>
           <div className="text-center">
-            Already have an account ? <Link href={"/login"}>Login</Link>
+            Already have an account ? <NextLink href={"/login"}>Login</NextLink>
           </div>
         </div>
       </div>

@@ -6,11 +6,11 @@ import { useUser } from "@/context/user.provider";
 import { useUserLogin } from "@/hooks/auth.hook";
 import loginValidationSchema from "@/schemas/login.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Link } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-
+import NextLink from "next/link";
 export default function Login() {
   const { setIsLoading: userLoading } = useUser();
   const searchParams = useSearchParams();
@@ -36,7 +36,7 @@ export default function Login() {
     <>
       {isPending && <Loading />}
       <div className="flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center">
-        <h3 className="my-2 text-2xl font-bold">Login with FoundX</h3>
+        <h3 className="my-2 text-2xl font-bold">Login with Fabrica Fetish</h3>
         <p className="mb-4">Welcome Back! Let&lsquo;s Get Started</p>
         <div className="w-[35%]">
           <FFForm
@@ -63,7 +63,8 @@ export default function Login() {
             </Button>
           </FFForm>
           <div className="text-center">
-            Don&lsquo;t have account ? <Link href={"/register"}>Register</Link>
+            Don&lsquo;t have account ?{" "}
+            <NextLink href={"/register"}>Register</NextLink>
           </div>
         </div>
       </div>

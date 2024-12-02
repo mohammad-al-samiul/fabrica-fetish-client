@@ -28,7 +28,7 @@ export const registerUser = async (userData: FormData) => {
       }
     );
 
-    console.log("data", data);
+    //console.log("data", data);
 
     if (!data.success && !data.data) {
       throw new Error(data.message);
@@ -85,4 +85,19 @@ export const getCurrentUser = async () => {
   }
 
   return decodedToken;
+};
+
+export const getUserProfile = async () => {
+  const { data } = await axiosInstance.get("/auth/me");
+  return data;
+};
+
+export const updateProfile = async (userData: FormData) => {
+  const { data } = await axiosInstance.put("/auth/me", userData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return data;
 };

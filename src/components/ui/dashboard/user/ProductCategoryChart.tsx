@@ -2,32 +2,26 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import * as ApexCharts from "apexcharts"; // Import the correct ApexCharts namespace
+import { IProduct } from "@/types";
 
-interface ProductBrandChartProps {
-  products: Array<{
-    productId: string;
-    title: string;
-    price: number;
-    category: string;
-    image: string;
-    quantity: number;
-    brand: string;
-  }>;
+interface IProps {
+  products: IProduct[];
   title: string;
 }
 
-const ProductBrandChart: React.FC<ProductBrandChartProps> = ({
-  products = [],
-  title,
-}) => {
+const ProductBrandChart: React.FC<IProps> = ({ products = [], title }) => {
   // Calculate the count of products by brand
-  const brandCounts = products?.reduce((acc: any, product) => {
-    acc[product?.category] = (acc[product?.category] || 0) + product?.quantity;
-    return acc;
-  }, {});
+  const brandCounts = products?.reduce(
+    (acc: { [key: string]: number }, product) => {
+      acc[product?.category!] =
+        (acc[product?.category!] || 0) + product?.quantity;
+      return acc;
+    },
+    {}
+  );
 
   const brandData = {
-    series: Object.values(brandCounts), // Extract values (quantities) for the pie chart
+    series: Object.values(brandCounts), // Ensure this is a number array
     labels: Object.keys(brandCounts), // Extract brand names for the pie chart
   };
 
@@ -66,7 +60,7 @@ const ProductBrandChart: React.FC<ProductBrandChartProps> = ({
     <div>
       <Chart
         options={brandOptions as ApexCharts.ApexOptions}
-        series={brandData.series}
+        series={brandData.series} // Directly pass the number[] array
         type="pie"
       />
     </div>

@@ -1,9 +1,14 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { FieldValues } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
-import { loginUser, registerUser } from "../services/AuthService";
+import {
+  getUserProfile,
+  loginUser,
+  registerUser,
+  updateProfile,
+} from "../services/AuthService";
 
 export const useUserRegistration = () => {
   const router = useRouter();
@@ -37,6 +42,32 @@ export const useUserLogin = () => {
     },
     onError: (error: any) => {
       toast.error(error.message);
+    },
+  });
+};
+
+export const useGetUserProfile = () => {
+  return useQuery({
+    queryKey: ["GET_PROFILE"],
+    queryFn: async () => await getUserProfile(),
+  });
+};
+
+export const useUserUpdateProfile = () => {
+  const queryClient = useQueryClient(); // Access the query client to invalidate queries
+
+  return useMutation({
+    mutationKey: ["USER_UPDATE"],
+    mutationFn: async (userData: FormData) => {
+      await updateProfile(userData); // Your mutation logic to update the profile
+    },
+    onSuccess: () => {
+      // Invalidate the 'GET_PROFILE' query to refetch the updated profile
+      queryClient.invalidateQueries({ queryKey: ["GET_PROFILE"] });
+      toast.success("User update successful");
+    },
+    onError: (error: any) => {
+      toast.error(error.message); // Handle mutation error
     },
   });
 };
