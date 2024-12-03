@@ -1,6 +1,4 @@
 import { SwitchProps, useSwitch, VisuallyHidden } from "@nextui-org/react";
-import { MoonIcon } from "./MoonIcon";
-import { SunIcon } from "./SunIcon";
 import { MoonFilledIcon, SunFilledIcon } from "../icons";
 import clsx from "clsx";
 export default function ThemeSwitch(props: SwitchProps) {

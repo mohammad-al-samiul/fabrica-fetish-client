@@ -3,13 +3,15 @@ import { getSingleProduct } from "@/services/ProductService";
 import React from "react";
 
 interface IProps {
-  params: {
-    productId: string;
-  };
+  productId: string;
 }
 
-export default async function ProductDetails({ params }: IProps) {
-  const { productId } = await params;
+export default async function ProductDetails({
+  params,
+}: {
+  params: any;
+}): Promise<any> {
+  const { productId } = params;
   const { data: product } = await getSingleProduct(productId);
   return (
     <div className="">

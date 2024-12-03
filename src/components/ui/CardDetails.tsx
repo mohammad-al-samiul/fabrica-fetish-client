@@ -1,14 +1,15 @@
 "use client";
 import { CartContext } from "@/context/cart.provider";
-import { useUser } from "@/context/user.provider";
+
 import { IProduct } from "@/types";
 import { Button, Image } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
+
 import React, { useContext } from "react";
 import { toast } from "sonner";
 
 interface CartItem extends IProduct {
   quantity: number;
+  id: string;
 }
 export default function CardDetails({ product }: { product: IProduct }) {
   const cartContext = useContext(CartContext);
@@ -21,7 +22,7 @@ export default function CardDetails({ product }: { product: IProduct }) {
   const { setCarts } = cartContext;
 
   // Type for handleCart function
-  const handleAddToCart = (product: IProduct, redirect?: boolean): void => {
+  const handleAddToCart = (product: IProduct): void => {
     const carts: CartItem[] = JSON.parse(localStorage.getItem("carts") || "[]");
 
     const isProductExist = carts.find((item) => item._id === product._id);
@@ -31,7 +32,6 @@ export default function CardDetails({ product }: { product: IProduct }) {
 
       return;
     } else {
-      // Add the product to the cart
       localStorage.setItem(
         "carts",
         JSON.stringify([...carts, { ...product, quantity: 1 }])
@@ -69,9 +69,9 @@ export default function CardDetails({ product }: { product: IProduct }) {
               </h1>
               <div className="flex mb-4">
                 <span className="flex items-center font-bold">
-                  Rating: {product?.rating.rate}
+                  Rating: {product?.rating?.rate}
                   <span className="text-gray-600 ml-3">
-                    {product?.rating.count} Reviews
+                    {product?.rating?.count} Reviews
                   </span>
                 </span>
                 <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2">

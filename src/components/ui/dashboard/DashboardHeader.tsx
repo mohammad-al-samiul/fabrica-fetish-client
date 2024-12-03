@@ -30,8 +30,9 @@ export default function DashboardHeader({
         >
           <MenuOutlined />
         </div>
+        <div></div>
 
-        <h3 style={{ margin: 0 }}>Dashboard</h3>
+        {/* <h3 style={{ margin: 0 }}>Dashboard</h3> */}
       </Header>
     </>
   );

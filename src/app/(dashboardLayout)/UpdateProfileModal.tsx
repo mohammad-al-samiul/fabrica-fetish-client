@@ -14,7 +14,7 @@ import {
   ModalBody,
   Button,
 } from "@nextui-org/react";
-import { useQueryClient } from "@tanstack/react-query";
+
 import React from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 

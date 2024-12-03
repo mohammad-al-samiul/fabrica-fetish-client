@@ -56,7 +56,7 @@ export default function Checkout() {
     setCarts([]);
   };
 
-  const onSubmit = (data: FieldValues) => {
+  const onSubmit = (data: any) => {
     const orderInfo: IOrderInfo = {
       products,
       user: {

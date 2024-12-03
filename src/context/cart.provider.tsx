@@ -1,15 +1,7 @@
+import { IProduct } from "@/types";
 import { createContext, ReactNode, useState } from "react";
 
-interface CartItem {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: { rate: number; count: number };
-  quantity: number;
-}
+interface CartItem extends IProduct {}
 
 interface CartContextType {
   carts: CartItem[];

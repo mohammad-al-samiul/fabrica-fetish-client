@@ -28,8 +28,6 @@ export const registerUser = async (userData: FormData) => {
       }
     );
 
-    //console.log("data", data);
-
     if (!data.success && !data.data) {
       throw new Error(data.message);
     }

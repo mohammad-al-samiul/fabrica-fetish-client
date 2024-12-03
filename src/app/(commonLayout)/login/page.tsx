@@ -1,4 +1,5 @@
 "use client";
+
 import FFForm from "@/components/form/FFForm";
 import FFInput from "@/components/form/FFInput";
 import Loading from "@/components/ui/Loading";
@@ -7,15 +8,20 @@ import { useUserLogin } from "@/hooks/auth.hook";
 import loginValidationSchema from "@/schemas/login.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import NextLink from "next/link";
+
 export default function Login() {
   const { setIsLoading: userLoading } = useUser();
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const redirect = searchParams.get("redirect");
+
+  // Safely retrieve search params for the redirect
+  const redirect =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("redirect")
+      : null;
 
   const { mutate: handleUserLogin, isPending, isSuccess } = useUserLogin();
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -31,7 +37,8 @@ export default function Login() {
         router.push("/");
       }
     }
-  }, [isSuccess, isPending]);
+  }, [isSuccess, isPending, redirect, router, userLoading]);
+
   return (
     <>
       {isPending && <Loading />}
@@ -63,8 +70,8 @@ export default function Login() {
             </Button>
           </FFForm>
           <div className="text-center">
-            Don&lsquo;t have account ?{" "}
-            <NextLink href={"/register"}>Register</NextLink>
+            Don&lsquo;t have an account?{" "}
+            <NextLink href="/register">Register</NextLink>
           </div>
         </div>
       </div>

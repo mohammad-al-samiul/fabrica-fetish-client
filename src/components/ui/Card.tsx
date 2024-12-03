@@ -13,7 +13,7 @@ export default function Card({ item }: { item: IProduct }) {
         {item.category}
       </div>
       <div className="absolute top-10 left-2 z-10 bg-default-100 text-default-900 text-xs font-semibold px-2 py-1 rounded dark:bg-default-200 dark:text-default-800">
-        Ratings: {item.rating.rate}
+        Ratings: {item?.rating?.rate}
       </div>
 
       {/* Image Section */}

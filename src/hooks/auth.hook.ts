@@ -62,7 +62,6 @@ export const useUserUpdateProfile = () => {
       await updateProfile(userData); // Your mutation logic to update the profile
     },
     onSuccess: () => {
-      // Invalidate the 'GET_PROFILE' query to refetch the updated profile
       queryClient.invalidateQueries({ queryKey: ["GET_PROFILE"] });
       toast.success("User update successful");
     },

@@ -11,6 +11,7 @@ import React from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import NextLink from "next/link";
 import FFTextarea from "@/components/form/FFTextArea";
+
 export default function Register() {
   const { mutate: handleUserRegistration, isPending } = useUserRegistration();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
