@@ -14,7 +14,7 @@ export interface IDecodedTokenProps {
 }
 
 export interface IUser {
-  _id: string;
+  _id?: string;
   name: string;
   role: string;
   email: string;
@@ -26,6 +26,7 @@ export interface IUser {
 
 export interface IProduct {
   _id?: string;
+  productId: string;
   title: string;
   stock?: string;
   price: number;

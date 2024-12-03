@@ -131,14 +131,14 @@ export default function ProductsTable({ products }: { products: IProduct[] }) {
         <Button onClick={clearAll}>Clear Filters and Sorters</Button>
       </div>
 
-      {/* <div className="overflow-x-auto">
+      <div className="overflow-x-auto">
         <Table<DataType>
           columns={columns}
           dataSource={data}
           onChange={handleChange}
           scroll={{ x: 1000 }} // Adjust to fit column widths
         />
-      </div> */}
+      </div>
     </div>
   );
 }
