@@ -115,7 +115,9 @@ export default function CardDetails({ product }: { product: IProduct }) {
               </div>
               <p className="leading-relaxed">{product?.description}</p>
 
-              <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5"></div>
+              <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
+                <p className="font-bold"> quantity : {product?.quantity}</p>
+              </div>
 
               <div className="flex">
                 <span className="title-font font-medium text-2xl text-gray-900">
