@@ -8,14 +8,14 @@ import { IProduct, IUser } from "@/types";
 import { Tabs, TabsProps } from "antd";
 import React, { useMemo } from "react";
 
-export type TOrderProps = {
+export interface IOrderProps {
   _id: string;
   user: IUser;
   products: IProduct[];
   totalAmount: number;
   status: string;
   date: string;
-};
+}
 
 export default function MyOrder() {
   const { data: orders, isLoading } = useGetAllOrders();
@@ -24,13 +24,13 @@ export default function MyOrder() {
   const ordersData = orders?.data;
   const paidOrders = useMemo(
     () =>
-      ordersData?.filter((order: TOrderProps) => order.status === "paid") || [],
+      ordersData?.filter((order: IOrderProps) => order.status === "paid") || [],
     [ordersData]
   );
 
   const unpaidOrders = useMemo(
     () =>
-      ordersData?.filter((order: TOrderProps) => order.status === "unpaid") ||
+      ordersData?.filter((order: IOrderProps) => order.status === "unpaid") ||
       [],
     [ordersData]
   );

@@ -1,7 +1,7 @@
-import { TOrderProps } from "@/app/(dashboardLayout)/user/my-orders/page";
+import { IOrderProps } from "@/app/(dashboardLayout)/user/my-orders/page";
 import { Table } from "antd";
 
-const PaidOrders = ({ orders }: { orders: TOrderProps[] }) => {
+const PaidOrders = ({ orders }: { orders: IOrderProps[] }) => {
   const columns = [
     {
       title: "Customer Name",
@@ -27,7 +27,14 @@ const PaidOrders = ({ orders }: { orders: TOrderProps[] }) => {
     },
   ];
 
-  return <Table dataSource={orders} columns={columns} rowKey="_id" />;
+  return (
+    <Table
+      dataSource={orders}
+      columns={columns}
+      scroll={{ x: 800 }}
+      rowKey="_id"
+    />
+  );
 };
 
 export default PaidOrders;
