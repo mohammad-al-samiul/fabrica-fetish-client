@@ -124,7 +124,7 @@ export default function ProductsTable({ products }: { products: IProduct[] }) {
 
   return (
     <div>
-      <h3>All Products</h3>
+      <h3 className="text-3xl font-bold mb-4">All Products</h3>
       <div className="flex flex-wrap gap-2 sm:flex-nowrap sm:justify-start mb-4">
         <Button onClick={setPriceSort}>Sort Price</Button>
         <Button onClick={clearFilters}>Clear Filters</Button>

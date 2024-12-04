@@ -26,7 +26,8 @@ export default function UserDashboard() {
   const products = useMemo(() => {
     return (
       data?.data
-        ?.map((order: any) =>
+        ?.filter((order: any) => order.status === "paid") // Filter paid orders
+        .map((order: any) =>
           order.products.map((product: any) => ({
             ...product,
             date: order.date,
@@ -34,7 +35,7 @@ export default function UserDashboard() {
         )
         .flat() || []
     );
-  }, [data]);
+  }, [data?.data]);
 
   if (isLoading) {
     return <Loading />;

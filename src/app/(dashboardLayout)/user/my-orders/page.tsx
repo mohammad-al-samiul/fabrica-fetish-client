@@ -3,7 +3,7 @@
 import PaidOrders from "@/components/ui/dashboard/user/PaidOrders";
 import UnpaidOrders from "@/components/ui/dashboard/user/UnpaidOrders";
 import Loading from "@/components/ui/Loading";
-import { useCreateOrder, useGetAllOrders } from "@/hooks/order.hook";
+import { useGetAllOrders } from "@/hooks/order.hook";
 import { IProduct, IUser } from "@/types";
 import { Tabs, TabsProps } from "antd";
 import React, { useMemo } from "react";
@@ -18,8 +18,7 @@ export interface IOrderProps {
 }
 
 export default function MyOrder() {
-  const { data: orders, isLoading } = useGetAllOrders();
-  const { mutate: handleCreateOrder, isPending, isSuccess } = useCreateOrder();
+  const { data: orders, isPending, isSuccess } = useGetAllOrders();
 
   const ordersData = orders?.data;
   const paidOrders = useMemo(
@@ -48,14 +47,14 @@ export default function MyOrder() {
         children: <PaidOrders orders={paidOrders} />,
       },
     ],
-    [paidOrders, unpaidOrders]
+    [paidOrders, unpaidOrders, ordersData]
   );
 
-  if (isLoading) return <Loading />;
   return (
-    <div>
-      <h1>Order Management</h1>
+    <>
+      {isPending && !isSuccess && <Loading />}
+      <h1 className="text-3xl font-bold">Order Management</h1>
       <Tabs defaultActiveKey="1" items={items} />
-    </div>
+    </>
   );
 }

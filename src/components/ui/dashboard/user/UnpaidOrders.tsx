@@ -2,7 +2,7 @@ import { IOrderProps } from "@/app/(dashboardLayout)/user/my-orders/page";
 import { Button, Table } from "antd";
 import { useMemo } from "react";
 import { notification } from "antd";
-import { useCreatePayment } from "@/hooks/payment.hook";
+import { useCreatePaymentUrl } from "@/hooks/payment.hook";
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
@@ -23,7 +23,7 @@ const UnpaidOrders = ({ orders }: { orders: IOrderProps[] }) => {
     mutate: handleCreatePayment,
     isPending,
     isSuccess,
-  } = useCreatePayment();
+  } = useCreatePaymentUrl();
 
   const handlePayment = async (item: any) => {
     const paymentInfo = {
@@ -36,12 +36,7 @@ const UnpaidOrders = ({ orders }: { orders: IOrderProps[] }) => {
       date: new Date().toISOString(),
     };
 
-    const res = handleCreatePayment(paymentInfo);
-    if (res) {
-      console.log("res", payment_url);
-      // window.location.href = res?.payment_url;
-      window.open(payment_url, "_blank");
-    }
+    handleCreatePayment(paymentInfo);
   };
 
   const openNotificationWithIcon = (type: NotificationType) => {
