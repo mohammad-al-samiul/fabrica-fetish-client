@@ -5,7 +5,7 @@ import envConfig from "@/config/envConfig";
 const fetchOption = {
   next: {
     tags: ["products"],
-    cache: "no",
+    cache: "no-store",
   },
 };
 export const getRecentProducts = async () => {

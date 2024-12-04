@@ -12,6 +12,7 @@ import { calculateTotalAmount } from "@/utils/calculateAmount";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/react";
 import { notification } from "antd";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 
 type NotificationType = "success" | "info" | "warning" | "error";
@@ -28,6 +29,7 @@ export default function Checkout() {
   const { user } = useUser();
   const [total, setTotal] = useState(0);
   const [products, setProducts] = useState<IProduct[]>([]);
+  const router = useRouter();
   const { mutate: handleCreateOrder, isPending, isSuccess } = useCreateOrder();
   const cartContext = useContext(CartContext);
 
@@ -73,6 +75,7 @@ export default function Checkout() {
     handleCreateOrder(orderInfo);
 
     handleRemoveAllProduct();
+    router.push("/user/my-orders");
   };
 
   const openNotificationWithIcon = (type: NotificationType) => {
