@@ -1,9 +1,11 @@
 import { createOrder, getAllOrder } from "@/services/OrderService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
+
 import { toast } from "sonner";
 
 export const useCreateOrder = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["CREATE_ORDER"],
@@ -12,6 +14,7 @@ export const useCreateOrder = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["GET_ORDERS"] });
       toast.success("Ordered Successfull");
+      router.push("/user/my-orders");
     },
     onError: (error: any) => {
       toast.error(error.message);

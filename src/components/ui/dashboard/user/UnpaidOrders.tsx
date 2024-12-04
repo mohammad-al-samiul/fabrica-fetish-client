@@ -1,8 +1,8 @@
-import { IOrderProps } from "@/app/(dashboardLayout)/user/my-orders/page";
 import { Button, Table } from "antd";
 import { useMemo } from "react";
 
 import { useCreatePaymentUrl } from "@/hooks/payment.hook";
+import { IOrderProps } from "@/types";
 
 const UnpaidOrders = ({ orders }: { orders: IOrderProps[] }) => {
   const { mutate: handleCreatePayment } = useCreatePaymentUrl();
@@ -37,7 +37,7 @@ const UnpaidOrders = ({ orders }: { orders: IOrderProps[] }) => {
         title: "Total Amount",
         dataIndex: "totalAmount",
         key: "totalAmount",
-        render: (amount: number) => `$${amount.toFixed(2)}`,
+        render: (amount: number) => `${amount.toFixed(2)}`,
       },
       {
         title: "Quantity",
@@ -68,14 +68,14 @@ const UnpaidOrders = ({ orders }: { orders: IOrderProps[] }) => {
   );
 
   return (
-    <div>
+    <>
       <Table
         dataSource={orders}
         columns={columns}
         scroll={{ x: 800 }}
         rowKey="_id"
       />
-    </div>
+    </>
   );
 };
 

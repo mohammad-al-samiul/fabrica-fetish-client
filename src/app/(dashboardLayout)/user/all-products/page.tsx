@@ -1,15 +1,20 @@
+"use client";
 import ProductsTable from "@/components/ui/dashboard/user/ProductsTable";
-import { getAllProducts } from "@/services/ProductService";
-import React from "react";
+import Loading from "@/components/ui/Loading";
+import { useGetAllProducts } from "@/hooks/product.hook";
 
-export default async function AllProducts() {
-  const { data: products } = await getAllProducts();
+export default function AllProducts() {
+  const { data, isLoading } = useGetAllProducts();
 
-  console.log(products);
+  const products = data?.data;
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
-    <div>
+    <>
       <ProductsTable products={products} />
-    </div>
+    </>
   );
 }

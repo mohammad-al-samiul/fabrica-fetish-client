@@ -33,11 +33,11 @@ const menuItems = [
     icon: <ShoppingCartOutlined />,
     label: <NextLink href="/user/my-orders">Orders</NextLink>,
   },
-  {
-    key: "5",
-    icon: <WalletOutlined />,
-    label: <NextLink href="/user/my-payments">Payment History</NextLink>,
-  },
+  // {
+  //   key: "5",
+  //   icon: <WalletOutlined />,
+  //   label: <NextLink href="/user/my-payments">Payment History</NextLink>,
+  // },
 ];
 export default function Sidebar({ collapsed }: { collapsed: any }) {
   return (

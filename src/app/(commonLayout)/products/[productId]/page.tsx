@@ -1,21 +1,19 @@
+"use client";
 import CardDetails from "@/components/ui/CardDetails";
-import { getSingleProduct } from "@/services/ProductService";
-import React from "react";
+import Loading from "@/components/ui/Loading";
+import { useGetSingleProduct } from "@/hooks/product.hook";
 
-interface IProps {
-  productId: string;
-}
-
-export default async function ProductDetails({
-  params,
-}: {
-  params: any;
-}): Promise<any> {
+export default function ProductDetails({ params }: { params: any }) {
   const { productId } = params;
-  const { data: product } = await getSingleProduct(productId);
+  const { data, isLoading } = useGetSingleProduct(productId);
+
+  const product = data?.data;
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
-    <div className="">
+    <>
       <CardDetails product={product} />
-    </div>
+    </>
   );
 }

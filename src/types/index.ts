@@ -13,6 +13,15 @@ export interface IDecodedTokenProps {
   phone?: string; // Optional, as it might not always be present
 }
 
+export interface IOrderProps {
+  _id: string;
+  user: IUser;
+  products?: IProduct[];
+  totalAmount: number;
+  status: string;
+  date: string;
+}
+
 export interface IUser {
   _id?: string;
   name: string;

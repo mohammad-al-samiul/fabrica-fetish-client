@@ -10,7 +10,7 @@ import {
   TableProps,
   Tooltip,
 } from "antd";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import NextLink from "next/link";
 
 import React from "react";
@@ -28,23 +28,26 @@ interface DataType extends IProduct {
 export default function ProductsTable({ products }: { products: IProduct[] }) {
   const [filteredInfo, setFilteredInfo] = useState<Filters>({});
   const [sortedInfo, setSortedInfo] = useState<Sorts>({});
-  //console.log("products", products);
 
-  const data: DataType[] = products?.map((product: IProduct) => ({
-    key: product?._id,
-    _id: product?._id,
-    title: product?.title,
-    description: product?.description,
-    category: product?.category,
-    quantity: product?.quantity,
-    image: product?.image,
-    price: product?.price,
-  }));
+  const data: DataType[] = useMemo(() => {
+    // Adjust product data based on the orders
+    return products?.map((product: IProduct) => ({
+      key: product?._id,
+      _id: product?._id,
+      title: product?.title,
+      description: product?.description,
+      category: product?.category,
+      quantity: product?.quantity,
+      image: product?.image,
+      price: product?.price,
+    }));
+  }, [products]);
+
   const columns: TableColumnsType<DataType> = [
     {
       title: "Image",
       render: ({ image }: { image: string }) => (
-        <img className="w-[80px]" src={image} alt="Product" />
+        <img className="w-[60px]" src={image} alt="Product" />
       ),
       key: "image",
     },

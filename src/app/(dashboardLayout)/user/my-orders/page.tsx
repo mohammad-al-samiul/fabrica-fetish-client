@@ -4,18 +4,9 @@ import PaidOrders from "@/components/ui/dashboard/user/PaidOrders";
 import UnpaidOrders from "@/components/ui/dashboard/user/UnpaidOrders";
 import Loading from "@/components/ui/Loading";
 import { useGetAllOrders } from "@/hooks/order.hook";
-import { IProduct, IUser } from "@/types";
+import { IOrderProps, IProduct, IUser } from "@/types";
 import { Tabs, TabsProps } from "antd";
 import React, { useMemo } from "react";
-
-export interface IOrderProps {
-  _id: string;
-  user: IUser;
-  products?: IProduct[];
-  totalAmount: number;
-  status: string;
-  date: string;
-}
 
 export default function MyOrder() {
   const { data: orders, isPending, isSuccess } = useGetAllOrders();
