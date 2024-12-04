@@ -11,8 +11,11 @@ import { IProduct } from "@/types";
 import { calculateTotalAmount } from "@/utils/calculateAmount";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/react";
+import { notification } from "antd";
 import React, { useContext, useEffect, useState } from "react";
-import { FieldValues } from "react-hook-form";
+
+type NotificationType = "success" | "info" | "warning" | "error";
+
 interface IOrderInfo {
   products: IProduct[];
   user: Record<string, any>; // Adjust if you know the user structure
@@ -21,17 +24,18 @@ interface IOrderInfo {
 }
 
 export default function Checkout() {
-  const { user, isLoading } = useUser();
+  const [api, contextHolder] = notification.useNotification();
+  const { user } = useUser();
   const [total, setTotal] = useState(0);
   const [products, setProducts] = useState<IProduct[]>([]);
-  const { mutate: handleCreateOrder, isPending } = useCreateOrder();
+  const { mutate: handleCreateOrder, isPending, isSuccess } = useCreateOrder();
   const cartContext = useContext(CartContext);
 
   if (!cartContext) {
     throw new Error("CartContext is not available!");
   }
 
-  const { setCarts } = cartContext;
+  const { carts, setCarts } = cartContext;
   useEffect(() => {
     const storedProducts = JSON.parse(
       localStorage.getItem("carts") ?? "[]"
@@ -67,14 +71,20 @@ export default function Checkout() {
     };
     //console.log(orderInfo);
     handleCreateOrder(orderInfo);
+
     handleRemoveAllProduct();
   };
-  if (isLoading) {
-    return <Loading />;
-  }
+
+  const openNotificationWithIcon = (type: NotificationType) => {
+    api[type]({
+      message: "You will not able to pay",
+      description: "You have add item in cart",
+    });
+  };
+
   return (
     <>
-      {isPending && <Loading />}
+      {isPending && !isSuccess && <Loading />}
       <div className="bg-default-100 p-4 lg:p-10 rounded-lg min-h-screen flex  justify-center">
         <div className="lg:w-[80%] mx-auto">
           <h1 className="text-center text-2xl font-bold text-default-800 my-5">
@@ -100,13 +110,28 @@ export default function Checkout() {
               <FFTextarea name="address" label="Address" />
             </div>
             <div>
-              <Button
-                className="my-3 w-full rounded-md bg-default-900 text-default-50"
-                size="lg"
-                type="submit"
-              >
-                Order
-              </Button>
+              {carts?.length > 0 ? (
+                <>
+                  <Button
+                    className="my-3 w-full rounded-md bg-default-900 text-default-50"
+                    size="lg"
+                    type="submit"
+                  >
+                    Order
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {contextHolder}
+                  <Button
+                    onClick={() => openNotificationWithIcon("error")}
+                    className="my-3 w-full rounded-md bg-default-900 text-default-50"
+                    size="lg"
+                  >
+                    Order
+                  </Button>
+                </>
+              )}
             </div>
           </FFForm>
         </div>

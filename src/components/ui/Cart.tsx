@@ -41,13 +41,6 @@ const CartPage = () => {
     }
   }, []);
 
-  const handleRemoveAllProduct = () => {
-    localStorage.removeItem("carts");
-    toast.success("Successfully removed all the products");
-    setContextCarts([]);
-    setCarts([]); // Update local state as well
-  };
-
   useEffect(() => {
     const total = calculateTotalAmount(carts);
     setTotal(total);
@@ -97,16 +90,23 @@ const CartPage = () => {
   return (
     <div>
       {!carts?.length ? (
-        <div className="font-bold text-center text-xl my-10">
-          Please select any product for purchasing
-          <div className="mt-2">
-            <Button
-              as={NextLink}
-              href="/products"
-              className="bg-default-800 text-default-50"
-            >
-              Products
-            </Button>
+        <div className="flex items-center justify-center my-10 h-[300px]">
+          <div className="text-center">
+            <h1 className="text-xl font-semibold">
+              No Products Selected for Purchasing
+            </h1>
+            <p className="text-gray-600 mt-2">
+              Please explore our collection to find the perfect product for you.
+            </p>
+            <div className="mt-4">
+              <Button
+                as={NextLink}
+                href="/products"
+                className="bg-default-800 text-default-50"
+              >
+                Explore Products
+              </Button>
+            </div>
           </div>
         </div>
       ) : (
@@ -221,12 +221,13 @@ const CartPage = () => {
                     className="p-2 text-sm w-full"
                   />
                 </div>
-                <button
-                  className="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white w-full uppercase"
-                  onClick={handleRemoveAllProduct}
+                <Button
+                  as={NextLink}
+                  className="rounded-md text-default-50 bg-default-800 w-full uppercase"
+                  href="/checkout"
                 >
-                  Remove All
-                </button>
+                  Checkout
+                </Button>
               </div>
             </div>
           </div>

@@ -11,7 +11,7 @@ import React, { useMemo } from "react";
 export interface IOrderProps {
   _id: string;
   user: IUser;
-  products: IProduct[];
+  products?: IProduct[];
   totalAmount: number;
   status: string;
   date: string;

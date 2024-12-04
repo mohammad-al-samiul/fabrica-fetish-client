@@ -37,6 +37,8 @@ export default function UserDashboard() {
     );
   }, [data?.data]);
 
+  console.log("products", products);
+
   if (isLoading) {
     return <Loading />;
   }

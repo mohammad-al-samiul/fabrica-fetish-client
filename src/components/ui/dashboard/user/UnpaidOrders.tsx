@@ -1,29 +1,11 @@
 import { IOrderProps } from "@/app/(dashboardLayout)/user/my-orders/page";
 import { Button, Table } from "antd";
 import { useMemo } from "react";
-import { notification } from "antd";
+
 import { useCreatePaymentUrl } from "@/hooks/payment.hook";
 
-type NotificationType = "success" | "info" | "warning" | "error";
-
-interface IProps {
-  clientName: string;
-  address: string;
-  clientPhoneNo: number;
-  clientEmail: string;
-  orderId: string;
-  totalCost: number;
-  quantity: number;
-  date: string;
-}
-
 const UnpaidOrders = ({ orders }: { orders: IOrderProps[] }) => {
-  const [api, contextHolder] = notification.useNotification();
-  const {
-    mutate: handleCreatePayment,
-    isPending,
-    isSuccess,
-  } = useCreatePaymentUrl();
+  const { mutate: handleCreatePayment } = useCreatePaymentUrl();
 
   const handlePayment = async (item: any) => {
     const paymentInfo = {
@@ -37,13 +19,6 @@ const UnpaidOrders = ({ orders }: { orders: IOrderProps[] }) => {
     };
 
     handleCreatePayment(paymentInfo);
-  };
-
-  const openNotificationWithIcon = (type: NotificationType) => {
-    api[type]({
-      message: "You will not able to pay",
-      description: "After returning bike you will be able to pay",
-    });
   };
 
   const columns = useMemo(
@@ -65,6 +40,15 @@ const UnpaidOrders = ({ orders }: { orders: IOrderProps[] }) => {
         render: (amount: number) => `$${amount.toFixed(2)}`,
       },
       {
+        title: "Quantity",
+        key: "totalQuantity",
+        render: (_: any, record: IOrderProps) =>
+          record?.products!.reduce(
+            (sum: number, product: any) => sum + product.quantity,
+            0
+          ),
+      },
+      {
         title: "Date",
         dataIndex: "date",
         key: "date",
@@ -75,15 +59,8 @@ const UnpaidOrders = ({ orders }: { orders: IOrderProps[] }) => {
         title: "Action",
         key: "payment",
         render: (unpaidItem: any) =>
-          unpaidItem.status === "unpaid" ? (
+          unpaidItem.status === "unpaid" && (
             <Button onClick={() => handlePayment(unpaidItem)}>Pay Now</Button>
-          ) : (
-            <>
-              {contextHolder}
-              <Button onClick={() => openNotificationWithIcon("error")}>
-                Paid
-              </Button>
-            </>
           ),
       },
     ],

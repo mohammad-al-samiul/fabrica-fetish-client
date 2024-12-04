@@ -8,8 +8,8 @@ export const useCreatePaymentUrl = () => {
     mutationFn: async (orderData: any) => await createPaymentUrl(orderData),
     onSuccess: (data) => {
       if (data.payment_url) {
-        window.location.href = data?.payment_url;
-        //window.open(data.payment_url, "_blank");
+        //window.location.href = data?.payment_url;
+        window.open(data.payment_url, "_blank");
       }
     },
     onError: (error: any) => {

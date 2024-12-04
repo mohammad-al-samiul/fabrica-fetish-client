@@ -20,6 +20,7 @@ interface ExpenseChartProps {
 const ExpenseChart: React.FC<ExpenseChartProps> = ({ orderData }) => {
   // Calculate the expenses (totalAmount) for each order
   const expenses = orderData
+    ?.filter((order) => order.status === "paid") // Filter only paid orders
     ?.slice(Math.max(orderData.length - 10, 0)) // Get the last 10 orders
     ?.map((order) => {
       const orderDate = new Date(order.date).toLocaleDateString("en-US", {
