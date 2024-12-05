@@ -9,10 +9,13 @@ import {
 import NextLink from "next/link";
 import { Layout, Menu } from "antd";
 import React from "react";
+import { useUser } from "@/context/user.provider";
 
 const { Sider } = Layout;
 
-const menuItems = [
+const { user } = useUser();
+
+const userMenuItems = [
   {
     key: "1",
     icon: <DashboardOutlined />,
@@ -33,12 +36,36 @@ const menuItems = [
     icon: <ShoppingCartOutlined />,
     label: <NextLink href="/user/my-orders">Orders</NextLink>,
   },
-  // {
-  //   key: "5",
-  //   icon: <WalletOutlined />,
-  //   label: <NextLink href="/user/my-payments">Payment History</NextLink>,
-  // },
 ];
+
+const adminMenuItems = [
+  {
+    key: "1",
+    icon: <DashboardOutlined />,
+    label: <NextLink href="/admin/dashboard">Dashboard</NextLink>,
+  },
+  {
+    key: "2",
+    icon: <ProfileOutlined />,
+    label: <NextLink href="/admin/profile">Profile</NextLink>,
+  },
+  {
+    key: "3",
+    icon: <ShoppingOutlined />,
+    label: <NextLink href="/admin/all-products">Products Management</NextLink>,
+  },
+  {
+    key: "4",
+    icon: <ShoppingCartOutlined />,
+    label: <NextLink href="/admin/my-orders">All Orders</NextLink>,
+  },
+  {
+    key: "5",
+    icon: <WalletOutlined />,
+    label: <NextLink href="/admin/all-payments">Payment History</NextLink>,
+  },
+];
+
 export default function Sidebar({ collapsed }: { collapsed: any }) {
   return (
     <>
@@ -59,7 +86,7 @@ export default function Sidebar({ collapsed }: { collapsed: any }) {
           mode="inline"
           theme="light"
           defaultSelectedKeys={["1"]}
-          items={menuItems}
+          items={user?.role === "admin" ? adminMenuItems : userMenuItems}
         />
       </Sider>
     </>
