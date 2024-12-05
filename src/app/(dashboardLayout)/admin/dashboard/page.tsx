@@ -1,6 +1,7 @@
 "use client";
 import AdminStats from "@/components/ui/dashboard/admin/AdminStats";
 import RevenueChart from "@/components/ui/dashboard/admin/RevenueChart";
+import ProductBrandChart from "@/components/ui/dashboard/user/ProductCategoryChart";
 import Loading from "@/components/ui/Loading";
 import { useGetAllUser } from "@/hooks/auth.hook";
 import { useGetAllOrders } from "@/hooks/order.hook";
@@ -55,9 +56,12 @@ export default function AdminDashboard() {
           <div className="lg:w-[1000px] md:w-[450px] sm:w-[450px] w-[320px]">
             <RevenueChart orderData={orderData?.data} />
           </div>
-          {/* <div className="sm:w-[350px] w-[300px]">
-          <BikeBrandsChart title="Bikes by brand" brandCounts={brandCounts} />
-        </div> */}
+          <div className="sm:w-[350px] w-[300px]">
+            <ProductBrandChart
+              products={productData?.data}
+              title="Product Brand Distribution"
+            />
+          </div>
         </div>
       </section>
     </>
