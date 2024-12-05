@@ -1,13 +1,32 @@
 "use client";
-import AdminStats from "@/components/ui/dashboard/admin/AdminStats";
-import RevenueChart from "@/components/ui/dashboard/admin/RevenueChart";
-import ProductBrandChart from "@/components/ui/dashboard/user/ProductCategoryChart";
+import dynamic from "next/dynamic";
+
 import Loading from "@/components/ui/Loading";
 import { useGetAllUser } from "@/hooks/auth.hook";
 import { useGetAllOrders } from "@/hooks/order.hook";
 import { useGetAllProducts } from "@/hooks/product.hook";
 import { IOrderProps, IProduct } from "@/types";
 import React, { useMemo } from "react";
+
+// Dynamically import AdminStats with ssr: false to disable SSR
+const AdminStats = dynamic(
+  () => import("@/components/ui/dashboard/admin/AdminStats"),
+  {
+    ssr: false,
+  }
+);
+const RevenueChart = dynamic(
+  () => import("@/components/ui/dashboard/admin/RevenueChart"),
+  {
+    ssr: false,
+  }
+);
+const ProductBrandChart = dynamic(
+  () => import("@/components/ui/dashboard/user/ProductCategoryChart"),
+  {
+    ssr: false,
+  }
+);
 
 export default function AdminDashboard() {
   const { data: productData, isLoading: productLoading } = useGetAllProducts();

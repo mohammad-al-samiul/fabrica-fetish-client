@@ -1,7 +1,12 @@
 "use client";
-
+import Loading from "@/components/ui/Loading";
+import {
+  useDeleteProduct,
+  useGetAllProducts,
+  useUpdateProduct,
+} from "@/hooks/product.hook";
 import { IProduct } from "@/types";
-import { EyeFilled } from "@ant-design/icons";
+import { EditFilled, QuestionCircleOutlined } from "@ant-design/icons";
 import {
   Button,
   Popconfirm,
@@ -11,11 +16,11 @@ import {
   TableProps,
   Tooltip,
 } from "antd";
-import { useMemo, useState } from "react";
-import NextLink from "next/link";
-
-import React from "react";
+import React, { memo, useMemo, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+
+const MemoizedTooltip = memo(Tooltip);
+const MemoizedPopconfirm = memo(Popconfirm);
 
 type OnChange = NonNullable<TableProps<DataType>["onChange"]>;
 type Filters = Parameters<OnChange>[1];
@@ -27,13 +32,27 @@ interface DataType extends IProduct {
   key?: string;
 }
 
-export default function ProductsTable({ products }: { products: IProduct[] }) {
+export default function ProductManangement() {
   const [filteredInfo, setFilteredInfo] = useState<Filters>({});
   const [sortedInfo, setSortedInfo] = useState<Sorts>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null
+  );
+
+  const { data: products, isLoading } = useGetAllProducts();
+  const { mutate: deleteProductMutation } = useDeleteProduct();
+  const { mutate: updateProductMutation } = useUpdateProduct();
+
+  const handleDelete = (productId: string) => {
+    deleteProductMutation(productId);
+  };
+
+  // Handling update modal open
 
   const data: DataType[] = useMemo(() => {
-    // Adjust product data based on the orders
-    return products?.map((product: IProduct) => ({
+    return products?.data?.map((product: IProduct) => ({
       key: product?._id,
       _id: product?._id,
       title: product?.title,
@@ -64,7 +83,7 @@ export default function ProductsTable({ products }: { products: IProduct[] }) {
       dataIndex: "category",
       key: "category",
       filters: Array.from(
-        new Set(data?.map((product) => product?.category))
+        new Set(data?.map((product: any) => product?.category))
       ).map((category: any) => ({
         text: category,
         value: category,
@@ -90,28 +109,26 @@ export default function ProductsTable({ products }: { products: IProduct[] }) {
       sorter: (a, b) => a.quantity! - b.quantity!,
       sortOrder: sortedInfo.columnKey === "quantity" ? sortedInfo.order : null,
     },
+
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Tooltip title="Edit Bike">
-            <FaEdit
-              className="text-yellow-500 text-2xl cursor-pointer"
-              // onClick={() => updateShowModal(record._id!)} // Enable the edit functionality
-            />
-          </Tooltip>
-          <Tooltip title="Delete Bike">
-            <Popconfirm
+          <MemoizedTooltip title="Edit Bike">
+            <FaEdit className="text-yellow-500 text-2xl cursor-pointer" />
+          </MemoizedTooltip>
+          <MemoizedTooltip title="Delete Bike">
+            <MemoizedPopconfirm
               title="Delete the Bike"
               description="Are you sure to delete this bike?"
-              // onConfirm={() => handleDelete(record._id!)}
+              //onConfirm={handleDelete}
               okText="Yes"
               cancelText="No"
             >
               <FaTrash className="text-red-500 text-2xl cursor-pointer" />
-            </Popconfirm>
-          </Tooltip>
+            </MemoizedPopconfirm>
+          </MemoizedTooltip>
         </Space>
       ),
     },
@@ -138,6 +155,10 @@ export default function ProductsTable({ products }: { products: IProduct[] }) {
       columnKey: "pricePerHour",
     });
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>
