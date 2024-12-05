@@ -50,7 +50,7 @@ export default function Profile() {
                         className="pb-1 bg-default-800 text-default-50 rounded-md"
                         onPress={() => handleOpen(size)}
                       >
-                        update
+                        Update
                       </Button>
                     </div>
                     <div>

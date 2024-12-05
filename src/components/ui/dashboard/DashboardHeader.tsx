@@ -26,7 +26,7 @@ export default function DashboardHeader({
       >
         <div
           onClick={toggleSidebar}
-          className="block lg:hidden text-lg bg-default-200 px-2 py-1 rounded-lg"
+          className="cursor-pointer text-lg bg-default-50 px-2 py-1 rounded-lg"
         >
           <MenuOutlined />
         </div>

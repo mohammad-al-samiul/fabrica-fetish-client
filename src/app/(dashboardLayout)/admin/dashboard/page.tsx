@@ -1,5 +1,64 @@
-import React from "react";
+"use client";
+import AdminStats from "@/components/ui/dashboard/admin/AdminStats";
+import Loading from "@/components/ui/Loading";
+import { useGetAllUser } from "@/hooks/auth.hook";
+import { useGetAllOrders } from "@/hooks/order.hook";
+import { useGetAllProducts } from "@/hooks/product.hook";
+import { IOrderProps, IProduct } from "@/types";
+import React, { useMemo } from "react";
 
 export default function AdminDashboard() {
-  return <div>Admin Dashboard</div>;
+  const { data: productData, isLoading: productLoading } = useGetAllProducts();
+  const { data: orderData, isLoading: orderLoading } = useGetAllOrders();
+  const { data: userData, isLoading: userLoading } = useGetAllUser();
+
+  const totalRevenue = useMemo(() => {
+    return (
+      orderData?.data?.reduce((acc: any, order: IOrderProps) => {
+        return order.status === "paid" ? acc + order.totalAmount : acc;
+      }, 0) || 0
+    );
+  }, [orderData?.data]);
+
+  const totalOrders = useMemo(() => {
+    return (
+      orderData?.data?.filter((order: IOrderProps) => order?.status === "paid")
+        .length || 0
+    );
+  }, [orderData?.data]);
+
+  const totalProducts = useMemo(() => {
+    return (
+      productData?.data?.reduce((total: number, product: IProduct) => {
+        return total + (product.quantity || 0);
+      }, 0) || 0
+    );
+  }, [productData?.data]);
+
+  const totalUser = userData?.data?.length || 0;
+
+  if (orderLoading || userLoading || productLoading) {
+    return <Loading />;
+  }
+
+  return (
+    <>
+      <section>
+        <AdminStats
+          totalProducts={totalProducts}
+          totalOrders={totalOrders}
+          totalRevenue={totalRevenue}
+          totalUser={totalUser}
+        />
+        {/* <div className="flex lg:flex-row flex-col justify-between items-center gap-8 mt-16">
+        <div className="lg:w-[1000px] md:w-[450px] sm:w-[450px] w-[320px]">
+          <RevenueGrowth rentalData={rentalData!} />
+        </div>
+        <div className="sm:w-[350px] w-[300px]">
+          <BikeBrandsChart title="Bikes by brand" brandCounts={brandCounts} />
+        </div>
+      </div> */}
+      </section>
+    </>
+  );
 }

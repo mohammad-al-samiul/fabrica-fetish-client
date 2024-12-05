@@ -85,6 +85,11 @@ export const getCurrentUser = async () => {
   return decodedToken;
 };
 
+export const getAllUser = async () => {
+  const { data } = await axiosInstance.get("/auth/users");
+  return data;
+};
+
 export const getUserProfile = async () => {
   const { data } = await axiosInstance.get("/auth/me");
   return data;

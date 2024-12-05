@@ -4,6 +4,7 @@ import { FieldValues } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 import {
+  getAllUser,
   getUserProfile,
   loginUser,
   registerUser,
@@ -50,6 +51,12 @@ export const useGetUserProfile = () => {
   return useQuery({
     queryKey: ["GET_PROFILE"],
     queryFn: async () => await getUserProfile(),
+  });
+};
+export const useGetAllUser = () => {
+  return useQuery({
+    queryKey: ["GET_ALL_USER"],
+    queryFn: async () => await getAllUser(),
   });
 };
 

@@ -10,10 +10,9 @@ import NextLink from "next/link";
 import { Layout, Menu } from "antd";
 import React from "react";
 import { useUser } from "@/context/user.provider";
+import { Image } from "@nextui-org/react";
 
 const { Sider } = Layout;
-
-const { user } = useUser();
 
 const userMenuItems = [
   {
@@ -67,25 +66,34 @@ const adminMenuItems = [
 ];
 
 export default function Sidebar({ collapsed }: { collapsed: any }) {
+  const { user } = useUser();
   return (
     <>
       <Sider
         collapsed={collapsed}
-        breakpoint="sm"
-        collapsedWidth="0"
+        // breakpoint="sm"
+        // collapsedWidth="0"
         style={{
           background: "#ffff",
         }}
       >
-        <div className="w-full h-[64px] flex justify-center items-center">
-          <NextLink href="/">
-            <p className="text-xl text-default-800 font-bold">Fabrica Fetish</p>
-          </NextLink>
-        </div>
+        <NextLink
+          href={"/"}
+          className="w-full h-[64px] flex justify-center items-center"
+        >
+          <Image src="/logo.svg" width={50} height={50} alt="logo" />
+
+          <p
+            className={`${
+              collapsed ? `hidden` : "block text-xl text-default-800 font-bold"
+            } `}
+          >
+            Fabrica Fetish
+          </p>
+        </NextLink>
         <Menu
           mode="inline"
           theme="light"
-          defaultSelectedKeys={["1"]}
           items={user?.role === "admin" ? adminMenuItems : userMenuItems}
         />
       </Sider>

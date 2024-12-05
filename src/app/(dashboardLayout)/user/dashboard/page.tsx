@@ -43,6 +43,7 @@ export default function UserDashboard() {
 
   return (
     <>
+      {isLoading && <Loading />}
       <section>
         <UserStats orders={products} />
         <div className="flex flex-col lg:flex-row gap-8 mt-16">
