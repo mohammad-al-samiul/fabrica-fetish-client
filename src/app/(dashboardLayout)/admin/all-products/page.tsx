@@ -1,9 +1,9 @@
 "use client";
-import Loading from "@/components/ui/Loading";
+
 import {
   useDeleteProduct,
   useGetAllProducts,
-  useUpdateProduct,
+  useGetSingleProduct,
 } from "@/hooks/product.hook";
 import { IProduct } from "@/types";
 import { QuestionCircleOutlined } from "@ant-design/icons";
@@ -20,6 +20,8 @@ import {
 import React, { useMemo, useState } from "react";
 import { Edit, Trash } from "lucide-react";
 import CreateProductModal from "@/components/ui/dashboard/admin/CreateProductModal";
+import UpdateProductModal from "@/components/ui/dashboard/admin/UpdateProductModal";
+import Loading from "@/components/ui/Loading";
 
 type OnChange = NonNullable<TableProps<DataType>["onChange"]>;
 type Filters = Parameters<OnChange>[1];
@@ -40,9 +42,8 @@ export default function ProductManangement() {
     null
   );
 
-  const { data: products, isLoading } = useGetAllProducts();
+  const { data: products } = useGetAllProducts();
   const { mutate: deleteProductMutation } = useDeleteProduct();
-  const { mutate: updateProductMutation } = useUpdateProduct();
 
   const handleDelete = (productId: string) => {
     deleteProductMutation(productId);
@@ -115,10 +116,11 @@ export default function ProductManangement() {
         <Space size="middle">
           <Tooltip title="Edit Bike">
             <Edit
-              onClick={() => updateShowModal(record._id!)}
+              onClick={() => updateShowModal(record?._id!)}
               className="text-yellow-500 cursor-pointer"
             />
           </Tooltip>
+
           <Tooltip title="Delete Bike">
             <Popconfirm
               title="Delete the Bike"
@@ -159,51 +161,53 @@ export default function ProductManangement() {
   };
 
   const createShowModal = () => setIsModalOpen(true);
+
   const updateShowModal = (productId: string) => {
     setSelectedProductId(productId);
     setIsUpdateModalOpen(true);
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
-    <div className="p-2 sm:p-6">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <h1 className="text-3xl font-bold m-2">All Products</h1>
-        <ConfigProvider>
-          <Button className="mb-2" onClick={createShowModal}>
-            Create Bike
-          </Button>
-        </ConfigProvider>
+    <>
+      <div className="p-2 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+          <h1 className="text-3xl font-bold m-2">All Products</h1>
+          <ConfigProvider>
+            <Button className="mb-2" onClick={createShowModal}>
+              Create Product
+            </Button>
+          </ConfigProvider>
+        </div>
+
+        <Space style={{ marginBottom: 16 }} wrap>
+          <Button onClick={setPriceSort}>Sort Price</Button>
+          <Button onClick={clearFilters}>Clear filters</Button>
+          <Button onClick={clearAll}>Clear filters and sorters</Button>
+        </Space>
+
+        <Table<DataType>
+          columns={columns}
+          dataSource={data}
+          onChange={handleChange}
+          scroll={{ x: "max-content" }}
+        />
+
+        <CreateProductModal
+          handleCancel={() => setIsModalOpen(false)}
+          handleOk={() => setIsModalOpen(false)}
+          isModalOpen={isModalOpen}
+        />
+        <>
+          {selectedProductId && (
+            <UpdateProductModal
+              handleCancel={() => setIsUpdateModalOpen(false)}
+              handleOk={() => setIsUpdateModalOpen(false)}
+              isModalOpen={isUpdateModalOpen}
+              selectedProductId={selectedProductId}
+            />
+          )}
+        </>
       </div>
-
-      <Space style={{ marginBottom: 16 }} wrap>
-        <Button onClick={setPriceSort}>Sort Price</Button>
-        <Button onClick={clearFilters}>Clear filters</Button>
-        <Button onClick={clearAll}>Clear filters and sorters</Button>
-      </Space>
-
-      <Table<DataType>
-        columns={columns}
-        dataSource={data}
-        onChange={handleChange}
-        scroll={{ x: "max-content" }}
-      />
-
-      <CreateProductModal
-        handleCancel={() => setIsModalOpen(false)}
-        handleOk={() => setIsModalOpen(false)}
-        isModalOpen={isModalOpen}
-      />
-
-      {/* <UpdateProductModal
-        productId={selectedProductId}
-        handleCancel={() => setIsUpdateModalOpen(false)}
-        handleOk={() => setIsUpdateModalOpen(false)}
-        isModalOpen={isUpdateModalOpen}
-      /> */}
-    </div>
+    </>
   );
 }

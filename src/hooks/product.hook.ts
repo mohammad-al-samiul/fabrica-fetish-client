@@ -27,17 +27,19 @@ export const useCreateProduct = () => {
     },
   });
 };
-
+interface UpdateProductParams {
+  id: string;
+  productData: FormData;
+}
 export const useUpdateProduct = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ["UPDATE_PRODUCT"], // Changed key to be more specific
-    mutationFn: (params: { id: string; productData: FormData }) =>
-      updateProduct(params.id, params.productData),
-    onSuccess: (data) => {
+    mutationFn: ({ id, productData }: UpdateProductParams) =>
+      updateProduct(id, productData),
+    onSuccess: () => {
       toast.success("Product updated successfully!");
-      // Invalidate the 'getProducts' query after the mutation is successful
       queryClient.invalidateQueries({ queryKey: ["GET_ALL_PRODUCTS"] });
     },
     onError: (error) => {

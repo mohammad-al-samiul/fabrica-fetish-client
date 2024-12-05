@@ -58,6 +58,7 @@ export const updateProduct = async (id: string, productData: FormData) => {
         },
       }
     );
+
     return data;
   } catch (error: any) {
     throw new Error(error.message);
