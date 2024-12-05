@@ -9,6 +9,7 @@ import { IProduct } from "@/types";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import {
   Button,
+  ConfigProvider,
   Popconfirm,
   Space,
   Table,
@@ -16,8 +17,9 @@ import {
   TableProps,
   Tooltip,
 } from "antd";
-import React, { memo, useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Edit, Trash } from "lucide-react";
+import CreateProductModal from "@/components/ui/dashboard/admin/CreateProductModal";
 
 type OnChange = NonNullable<TableProps<DataType>["onChange"]>;
 type Filters = Parameters<OnChange>[1];
@@ -113,7 +115,7 @@ export default function ProductManangement() {
         <Space size="middle">
           <Tooltip title="Edit Bike">
             <Edit
-              //onClick={() => updateShowModal(record._id)}
+              onClick={() => updateShowModal(record._id!)}
               className="text-yellow-500 cursor-pointer"
             />
           </Tooltip>
@@ -156,27 +158,52 @@ export default function ProductManangement() {
     });
   };
 
+  const createShowModal = () => setIsModalOpen(true);
+  const updateShowModal = (productId: string) => {
+    setSelectedProductId(productId);
+    setIsUpdateModalOpen(true);
+  };
+
   if (isLoading) {
     return <Loading />;
   }
 
   return (
-    <div>
-      <h3 className="text-3xl font-bold mb-4">All Products</h3>
-      <div className="flex flex-wrap gap-2 sm:flex-nowrap sm:justify-start mb-4">
-        <Button onClick={setPriceSort}>Sort Price</Button>
-        <Button onClick={clearFilters}>Clear Filters</Button>
-        <Button onClick={clearAll}>Clear Filters and Sorters</Button>
+    <div className="p-2 sm:p-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <h1 className="text-3xl font-bold m-2">All Products</h1>
+        <ConfigProvider>
+          <Button className="mb-2" onClick={createShowModal}>
+            Create Bike
+          </Button>
+        </ConfigProvider>
       </div>
 
-      <div className="overflow-x-auto">
-        <Table<DataType>
-          columns={columns}
-          dataSource={data}
-          onChange={handleChange}
-          scroll={{ x: 1000 }} // Adjust to fit column widths
-        />
-      </div>
+      <Space style={{ marginBottom: 16 }} wrap>
+        <Button onClick={setPriceSort}>Sort Price</Button>
+        <Button onClick={clearFilters}>Clear filters</Button>
+        <Button onClick={clearAll}>Clear filters and sorters</Button>
+      </Space>
+
+      <Table<DataType>
+        columns={columns}
+        dataSource={data}
+        onChange={handleChange}
+        scroll={{ x: "max-content" }}
+      />
+
+      <CreateProductModal
+        handleCancel={() => setIsModalOpen(false)}
+        handleOk={() => setIsModalOpen(false)}
+        isModalOpen={isModalOpen}
+      />
+
+      {/* <UpdateProductModal
+        productId={selectedProductId}
+        handleCancel={() => setIsUpdateModalOpen(false)}
+        handleOk={() => setIsUpdateModalOpen(false)}
+        isModalOpen={isUpdateModalOpen}
+      /> */}
     </div>
   );
 }

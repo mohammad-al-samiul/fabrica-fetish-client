@@ -12,7 +12,6 @@ import {
   Tooltip,
 } from "antd";
 import { useMemo, useState } from "react";
-import NextLink from "next/link";
 
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
