@@ -6,7 +6,7 @@ import {
   useUpdateProduct,
 } from "@/hooks/product.hook";
 import { IProduct } from "@/types";
-import { EditFilled, QuestionCircleOutlined } from "@ant-design/icons";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import {
   Button,
   Popconfirm,
@@ -16,11 +16,8 @@ import {
   TableProps,
   Tooltip,
 } from "antd";
-import React, { memo, useMemo, useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
-
-const MemoizedTooltip = memo(Tooltip);
-const MemoizedPopconfirm = memo(Popconfirm);
+import React, { memo, useEffect, useMemo, useState } from "react";
+import { Edit, Trash } from "lucide-react";
 
 type OnChange = NonNullable<TableProps<DataType>["onChange"]>;
 type Filters = Parameters<OnChange>[1];
@@ -109,26 +106,29 @@ export default function ProductManangement() {
       sorter: (a, b) => a.quantity! - b.quantity!,
       sortOrder: sortedInfo.columnKey === "quantity" ? sortedInfo.order : null,
     },
-
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <MemoizedTooltip title="Edit Bike">
-            <FaEdit className="text-yellow-500 text-2xl cursor-pointer" />
-          </MemoizedTooltip>
-          <MemoizedTooltip title="Delete Bike">
-            <MemoizedPopconfirm
+          <Tooltip title="Edit Bike">
+            <Edit
+              //onClick={() => updateShowModal(record._id)}
+              className="text-yellow-500 cursor-pointer"
+            />
+          </Tooltip>
+          <Tooltip title="Delete Bike">
+            <Popconfirm
               title="Delete the Bike"
               description="Are you sure to delete this bike?"
-              //onConfirm={handleDelete}
+              icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+              onConfirm={() => handleDelete(record._id!)}
               okText="Yes"
               cancelText="No"
             >
-              <FaTrash className="text-red-500 text-2xl cursor-pointer" />
-            </MemoizedPopconfirm>
-          </MemoizedTooltip>
+              <Trash className="text-red-500 cursor-pointer" />
+            </Popconfirm>
+          </Tooltip>
         </Space>
       ),
     },
