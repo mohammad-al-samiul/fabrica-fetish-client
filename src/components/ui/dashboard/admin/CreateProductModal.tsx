@@ -10,6 +10,7 @@ import { Button } from "@nextui-org/react";
 import { Modal } from "antd";
 import React from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import Loading from "../../Loading";
 
 export type TCreateBikeModalProps = {
   isModalOpen: boolean;
@@ -23,58 +24,85 @@ export default function CreateProductModal({
   handleCancel,
 }: TCreateBikeModalProps) {
   const {
-    mutate: handleProductCreate,
+    mutate: handleCreateProduct,
     isPending,
     isSuccess,
   } = useCreateProduct();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    const { rate, count, image, ...restData } = data;
+
+    const rating = {
+      rate: Number(rate),
+      count: Number(count),
+    };
+
+    // Combine restData and rating into productData
+    const productData = {
+      ...restData,
+      rating,
+    };
+
+    const formData = new FormData();
+
+    formData.append("data", JSON.stringify(productData));
+    formData.append("image", image);
+
+    // console.log(formData.get("image"));
+    // console.log(formData.get("data"));
+    handleCreateProduct(formData, {
+      onSuccess: () => {
+        handleOk();
+      },
+    });
   };
   return (
-    <Modal
-      open={isModalOpen}
-      onOk={handleOk}
-      onCancel={handleCancel}
-      width={800}
-      footer=""
-    >
-      <h1 className="text-2xl font-bold text-center my-3">Create Bike</h1>
-      <div className="w-full">
-        <FFForm
-          onSubmit={onSubmit}
-          resolver={zodResolver(createProductValidationSchema)}
-        >
-          <div className="lg:flex gap-3 mb-3">
-            <FFInput type="text" name="title" label="Title" />
-            <FFInput type="text" name="category" label="Category" />
-          </div>
-          <div className="lg:flex gap-3 mb-3">
-            <FFInput type="number" name="quantity" label="Quantity" />
-            <FFInput type="number" name="price" label="Price " />
-          </div>
-          <div className="lg:flex gap-3 mb-3">
-            <FFInput type="number" name="rate" label="Rating" />
-            <FFInput type="number" name="count" label="Rating Count" />
-          </div>
+    <>
+      {isPending && !isSuccess && <Loading />}
+      <Modal
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={800}
+        footer=""
+      >
+        <h1 className="text-2xl font-bold text-center my-3">Create Bike</h1>
+        <div className="w-full">
+          <FFForm
+            onSubmit={onSubmit}
+            resolver={zodResolver(createProductValidationSchema)}
+          >
+            <div className="lg:flex gap-3 mb-3">
+              <FFInput type="text" name="title" label="Title" />
+              <FFInput type="text" name="category" label="Category" />
+            </div>
+            <div className="lg:flex gap-3 mb-3">
+              <FFInput type="number" name="quantity" label="Quantity" />
+              <FFInput type="number" name="price" label="Price " />
+            </div>
+            <div className="lg:flex gap-3 mb-3">
+              <FFInput type="number" name="rate" label="Rating" />
+              <FFInput type="number" name="count" label="Rating Count" />
+            </div>
 
-          <div className="lg:flex flex-col gap-3 mb-3">
-            <FFTextarea name="description" label="Description" />
-          </div>
-          <div className="lg:flex gap-3 mb-3">
-            <FFInputFile name="image" label="Product Image" />
-          </div>
-          <div className="mt-3">
-            <Button
-              className="my-3 w-full rounded-md bg-default-800 font-semibold text-default-50"
-              size="lg"
-              type="submit"
-            >
-              Create Product
-            </Button>
-          </div>
-        </FFForm>
-      </div>
-    </Modal>
+            <div className="lg:flex flex-col gap-3 mb-3">
+              <FFTextarea name="description" label="Description" />
+            </div>
+            <div className="lg:flex gap-3 mb-3">
+              <FFInputFile name="image" label="Product Image" />
+            </div>
+            <div className="mt-3">
+              <Button
+                className="my-3 w-full rounded-md bg-default-800 font-semibold text-default-50"
+                size="lg"
+                type="submit"
+              >
+                Create Product
+              </Button>
+            </div>
+          </FFForm>
+        </div>
+      </Modal>
+    </>
   );
 }
