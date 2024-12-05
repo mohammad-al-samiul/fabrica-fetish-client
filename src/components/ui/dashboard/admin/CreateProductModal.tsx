@@ -73,23 +73,23 @@ export default function CreateProductModal({
             onSubmit={onSubmit}
             resolver={zodResolver(createProductValidationSchema)}
           >
-            <div className="lg:flex gap-3 mb-3">
+            <div className="flex flex-col flg:flex lg:flex-row gap-3 mb-3">
               <FFInput type="text" name="title" label="Title" />
               <FFInput type="text" name="category" label="Category" />
             </div>
-            <div className="lg:flex gap-3 mb-3">
+            <div className="flex flex-col flg:flex lg:flex-row gap-3 mb-3">
               <FFInput type="number" name="quantity" label="Quantity" />
               <FFInput type="number" name="price" label="Price " />
             </div>
-            <div className="lg:flex gap-3 mb-3">
+            <div className="flex flex-col flg:flex lg:flex-row gap-3 mb-3">
               <FFInput type="number" name="rate" label="Rating" />
               <FFInput type="number" name="count" label="Rating Count" />
             </div>
 
-            <div className="lg:flex flex-col gap-3 mb-3">
+            <div className="flex flex-col flg:flex lg:flex-row gap-3 mb-3">
               <FFTextarea name="description" label="Description" />
             </div>
-            <div className="lg:flex gap-3 mb-3">
+            <div className="flex flex-col flg:flex lg:flex-row gap-3 mb-3">
               <FFInputFile name="image" label="Product Image" />
             </div>
             <div className="mt-3">

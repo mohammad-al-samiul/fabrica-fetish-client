@@ -72,10 +72,10 @@ export default function AdminDashboard() {
           totalUser={totalUser}
         />
         <div className="flex lg:flex-row flex-col justify-between items-center gap-8 mt-16">
-          <div className="lg:w-[1000px] md:w-[450px] sm:w-[450px] w-[320px]">
+          <div className="lg:w-[750px] md:w-[450px] sm:w-[450px] w-[320px]">
             <RevenueChart orderData={orderData?.data} />
           </div>
-          <div className="sm:w-[350px] w-[300px]">
+          <div className="sm:w-[350px] lg:w-[450px]">
             <ProductBrandChart
               products={productData?.data}
               title="Product Brand Distribution"
