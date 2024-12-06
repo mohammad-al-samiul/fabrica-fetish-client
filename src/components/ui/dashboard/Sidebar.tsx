@@ -56,12 +56,12 @@ const adminMenuItems = [
   {
     key: "4",
     icon: <ShoppingCartOutlined />,
-    label: <NextLink href="/admin/my-orders">All Orders</NextLink>,
+    label: <NextLink href="/admin/all-orders">All Orders</NextLink>,
   },
   {
     key: "5",
     icon: <WalletOutlined />,
-    label: <NextLink href="/admin/all-payments">Payment History</NextLink>,
+    label: <NextLink href="/admin/all-payments">All Payments</NextLink>,
   },
 ];
 
