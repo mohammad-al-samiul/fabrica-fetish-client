@@ -43,12 +43,6 @@ export default function Register() {
         <p className="mb-4">Welcome Back! Let&lsquo;s Get Started</p>
         <div className="w-[80%] lg:w-[35%]">
           <FFForm
-            defaultValues={{
-              name: "Mir Hussain",
-              email: "mir@gmail.com",
-              phone: "01711223344",
-              password: "123456",
-            }}
             resolver={zodResolver(registerValidationSchema)}
             onSubmit={onSubmit}
           >

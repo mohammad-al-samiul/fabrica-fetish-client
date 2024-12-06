@@ -19,13 +19,6 @@ export default function AllProducts({ allProducts }: IProps) {
     ...new Set(allProducts?.map((product: IProduct) => product.category)),
   ];
 
-  // useEffect(() => {
-  //   const header = document.querySelector("header");
-  //   if (header) {
-  //     header.classList.add("nav-zero-padding");
-  //   }
-  // }, []);
-
   useEffect(() => {
     filterProducts();
   }, [selectedCategory, searchQuery]);

@@ -2,6 +2,7 @@ import {
   createProduct,
   deleteProduct,
   getAllProducts,
+  getHomeProducts,
   getRecentProducts,
   getSingleProduct,
   updateProduct,
@@ -54,10 +55,17 @@ export const useGetAllProducts = () => {
     queryFn: async () => await getAllProducts(),
   });
 };
+
 export const useGetRecentProducts = () => {
   return useQuery({
     queryKey: ["GET_RECENT_PRODUCTS"],
     queryFn: async () => await getRecentProducts(),
+  });
+};
+export const useGetHomeProducts = () => {
+  return useQuery({
+    queryKey: ["GET_HOME_PRODUCTS"],
+    queryFn: async () => await getHomeProducts(),
   });
 };
 export const useGetSingleProduct = (id: string) => {

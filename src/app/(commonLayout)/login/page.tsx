@@ -12,6 +12,11 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import NextLink from "next/link";
+import { Tooltip } from "antd";
+
+const userText = `hamim@gmail.com || 123456`;
+const adminText = "alsamiul123@gmail.com || securePassword123";
+const customColor = "#616161";
 
 export default function Login() {
   const { setIsLoading: userLoading } = useUser();
@@ -45,12 +50,16 @@ export default function Login() {
       <div className="flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center">
         <h3 className="my-2 text-2xl font-bold">Login with Fabrica Fetish</h3>
         <p className="mb-4">Welcome Back! Let&lsquo;s Get Started</p>
+        <div className="flex gap-2">
+          <Tooltip color={customColor} placement="bottom" title={userText}>
+            <Button className="text-deafult-800 ">User Credentials</Button>
+          </Tooltip>
+          <Tooltip placement="bottom" color={customColor} title={adminText}>
+            <Button className="text-deafult-800 ">Admin Credentials</Button>
+          </Tooltip>
+        </div>
         <div className="w-[80%] px-3 lg:w-[35%]">
           <FFForm
-            defaultValues={{
-              email: "mir@gmail.com",
-              password: "123456",
-            }}
             resolver={zodResolver(loginValidationSchema)}
             onSubmit={onSubmit}
           >

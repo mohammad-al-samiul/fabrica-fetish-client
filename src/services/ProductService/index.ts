@@ -19,6 +19,16 @@ export const createProduct = async (productData: FormData) => {
 export const getRecentProducts = async () => {
   try {
     const { data } = await axiosInstance.get(
+      `${envConfig.baseApi}/products?limit=8&sortBy=createdAt&sortOrder=desc`
+    );
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+export const getHomeProducts = async () => {
+  try {
+    const { data } = await axiosInstance.get(
       `${envConfig.baseApi}/products?limit=8`
     );
     return data;
