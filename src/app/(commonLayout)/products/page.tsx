@@ -23,8 +23,8 @@ export default function Products() {
   });
 
   const products = data?.data || [];
-  const totalProducts = data?.total || 0;
-  const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
+  const totalProducts = data?.data?.length || 0;
+  const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE) + 1;
 
   const categories = [
     "All",
@@ -100,23 +100,11 @@ export default function Products() {
         <Pagination
           showControls
           initialPage={1}
-          total={3}
+          total={totalPages}
           page={currentPage}
           onChange={(page) => handlePageChange(page)}
         />
       </div>
-
-      {/* {totalPages > 1 && (
-        <div className="flex justify-center mt-6">
-          <Pagination
-            isCompact
-            showControls
-            page={currentPage}
-            total={totalPages}
-            onChange={(page) => handlePageChange(page)}
-          />
-        </div>
-      )} */}
     </div>
   );
 }
