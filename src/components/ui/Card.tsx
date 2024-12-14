@@ -7,7 +7,7 @@ import React from "react";
 
 export default function Card({ item }: { item: IProduct }) {
   return (
-    <div className="relative w-full h-[390px] bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-between">
+    <div className="relative w-full bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-between">
       {/* Rating Section */}
       <div className="absolute top-2 left-2 z-10 bg-default-100 text-default-900 text-xs font-semibold px-2 py-1 rounded dark:bg-default-200 dark:text-default-800">
         {item.category}
@@ -28,18 +28,18 @@ export default function Card({ item }: { item: IProduct }) {
       </div>
 
       {/* Content Section */}
-      <div className="px-5 pb-5 flex flex-col h-full justify-between">
-        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-          {item.title}
+      <div className="px-5 pb-3 flex flex-col justify-start">
+        <h5 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+          {item.title.slice(0, 50)}
         </h5>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mt-3">
           <span className="text-lg font-bold text-gray-900 dark:text-white">
             ${item?.price}
           </span>
           <NextLink
             href={`/products/${item._id}`}
-            className="text-white bg-default-800 hover:bg-default-900 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-default-600 dark:hover:bg-default-700"
+            className="text-white bg-default-800 hover:bg-default-900 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-default-600 dark:hover:bg-default-700"
           >
             Details
           </NextLink>

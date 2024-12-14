@@ -1,12 +1,12 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import { IProduct } from "@/types";
-import { useRouter } from "next/navigation";
 import NextLink from "next/link";
 import { Button, Image } from "@nextui-org/react";
 import { toast } from "sonner";
 import { CartContext } from "@/context/cart.provider";
 import { calculateTotalAmount } from "@/utils/calculateAmount";
+import envConfig from "@/config/envConfig";
 
 interface CartItem {
   _id?: string;
@@ -23,7 +23,8 @@ interface CartItem {
 const CartPage = () => {
   const [total, setTotal] = useState(0);
   const [carts, setCarts] = useState<IProduct[]>([]);
-  const router = useRouter();
+  const [couponCode, setCouponCode] = useState("");
+  const [discount, setDiscount] = useState(0);
   const cartContext = useContext(CartContext);
 
   if (!cartContext) {
@@ -32,9 +33,7 @@ const CartPage = () => {
 
   const { setCarts: setContextCarts } = cartContext;
 
-  // Use useEffect to access localStorage on the client side only
   useEffect(() => {
-    // Ensure localStorage is only accessed in the client-side environment
     if (typeof window !== "undefined") {
       const savedCarts = JSON.parse(localStorage.getItem("carts") ?? "[]");
       setCarts(savedCarts);
@@ -42,9 +41,13 @@ const CartPage = () => {
   }, []);
 
   useEffect(() => {
-    const total = calculateTotalAmount(carts);
+    let total = calculateTotalAmount(carts);
+    if (discount > 0) {
+      total = total - total / discount;
+    }
     setTotal(total);
-  }, [carts]);
+    localStorage.setItem("total", JSON.stringify(total));
+  }, [carts, discount]);
 
   const handleIncrement = (id: string) => {
     const updatedProducts = carts.map((item: IProduct) => {
@@ -58,16 +61,17 @@ const CartPage = () => {
     });
 
     localStorage.setItem("carts", JSON.stringify(updatedProducts));
-    setCarts(updatedProducts); // Update local state
+    setCarts(updatedProducts);
     //router.push("/carts");
   };
 
   const handleDecrement = (id: string) => {
     const updatedProducts = carts.map((item: IProduct) => {
       if (item?._id === id) {
+        const newQuantity = item?.quantity! - 1;
         return {
           ...item,
-          quantity: item?.quantity! - 1,
+          quantity: newQuantity < 1 ? 1 : newQuantity, // Prevent quantity from going below 1
         };
       }
       return item;
@@ -84,6 +88,19 @@ const CartPage = () => {
     setCarts(updatedProducts);
     setContextCarts(updatedProducts as CartItem[]); // Update context as well
     toast.success("Product has been removed successfully!");
+  };
+
+  const handleApplyCoupon = () => {
+    if (couponCode === envConfig.coupon10) {
+      setDiscount(10); // Example discount value
+      toast.success("Coupon applied! $10 discount added.");
+    } else if (couponCode === envConfig.coupon20) {
+      setDiscount(20); // Example discount value
+      toast.success("Coupon applied! $20 discount added.");
+    } else {
+      setDiscount(0);
+      toast.error("Invalid coupon code.");
+    }
   };
 
   return (
@@ -206,23 +223,35 @@ const CartPage = () => {
                     <option>Standard shipping - $10.00</option>
                   </select>
                 </div>
-                <div className="py-10">
-                  <label
-                    htmlFor="promo"
-                    className="font-semibold inline-block mb-3 text-sm uppercase"
-                  >
-                    Promo Code
-                  </label>
-                  <input
-                    type="text"
-                    id="promo"
-                    placeholder="Enter your code"
-                    className="p-2 text-sm w-full"
-                  />
-                </div>
+                <>
+                  <div className="mb-5">
+                    <label
+                      htmlFor="promo"
+                      className="font-semibold inline-block mb-3 text-sm uppercase"
+                    >
+                      Promo Code
+                    </label>
+                    <input
+                      type="text"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value)}
+                      className="p-2 text-sm w-full"
+                      placeholder="Enter your coupon code"
+                    />
+                    <div className="w-full flex justify-start mb-3">
+                      <Button
+                        size="sm"
+                        onClick={handleApplyCoupon}
+                        className="rounded-sm mt-2 bg-red-500 text-default-50 uppercase"
+                      >
+                        Apply Coupon
+                      </Button>
+                    </div>
+                  </div>
+                </>
                 <Button
                   as={NextLink}
-                  className="rounded-md text-default-50 bg-default-800 w-full uppercase"
+                  className="rounded-sm text-default-50 bg-default-800 w-full uppercase"
                   href="/checkout"
                 >
                   Checkout

@@ -18,10 +18,7 @@ interface ContextCartProps {
 }
 
 const CartProvier: React.FC<ContextCartProps> = ({ children }) => {
-  // Define the state with the correct type for carts
   const [carts, setCarts] = useState<CartItem[]>([]);
-
-  // Define the context value
   const cartItem: CartContextType = { carts, setCarts };
 
   return (

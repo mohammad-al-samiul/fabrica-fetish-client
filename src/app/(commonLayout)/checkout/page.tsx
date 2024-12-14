@@ -11,11 +11,8 @@ import { IProduct } from "@/types";
 import { calculateTotalAmount } from "@/utils/calculateAmount";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/react";
-import { notification } from "antd";
 
 import React, { useContext, useEffect, useState } from "react";
-
-type NotificationType = "success" | "info" | "warning" | "error";
 
 interface IOrderInfo {
   products: IProduct[];
@@ -25,9 +22,8 @@ interface IOrderInfo {
 }
 
 export default function Checkout() {
-  const [api, contextHolder] = notification.useNotification();
   const { user } = useUser();
-  const [total, setTotal] = useState(0);
+
   const [products, setProducts] = useState<IProduct[]>([]);
 
   const { mutate: handleCreateOrder, isPending, isSuccess } = useCreateOrder();
@@ -38,6 +34,8 @@ export default function Checkout() {
   }
 
   const { carts, setCarts } = cartContext;
+
+  const total = JSON.parse(localStorage.getItem("total") ?? "0");
   useEffect(() => {
     const storedProducts = JSON.parse(
       localStorage.getItem("carts") ?? "[]"
@@ -54,7 +52,6 @@ export default function Checkout() {
     }));
     const total = calculateTotalAmount(formattedProducts);
     setProducts(formattedProducts);
-    setTotal(total);
   }, []);
 
   const handleRemoveAllProduct = () => {
@@ -74,13 +71,6 @@ export default function Checkout() {
     //console.log(orderInfo);
     handleCreateOrder(orderInfo);
     handleRemoveAllProduct();
-  };
-
-  const openNotificationWithIcon = (type: NotificationType) => {
-    api[type]({
-      message: "You will not able to pay",
-      description: "You have add item in cart",
-    });
   };
 
   return (
@@ -110,29 +100,15 @@ export default function Checkout() {
             <div className="mb-2">
               <FFTextarea name="address" label="Address" />
             </div>
+
             <div>
-              {carts?.length > 0 ? (
-                <>
-                  <Button
-                    className="my-3 w-full rounded-md bg-default-900 text-default-50"
-                    size="lg"
-                    type="submit"
-                  >
-                    Order
-                  </Button>
-                </>
-              ) : (
-                <>
-                  {contextHolder}
-                  <Button
-                    onClick={() => openNotificationWithIcon("error")}
-                    className="my-3 w-full rounded-md bg-default-900 text-default-50"
-                    size="lg"
-                  >
-                    Order
-                  </Button>
-                </>
-              )}
+              <Button
+                className="my-3 w-full rounded-md bg-default-900 text-default-50"
+                size="lg"
+                type="submit"
+              >
+                Order
+              </Button>
             </div>
           </FFForm>
         </div>
