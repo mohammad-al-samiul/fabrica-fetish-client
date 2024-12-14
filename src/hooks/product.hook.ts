@@ -7,7 +7,13 @@ import {
   getSingleProduct,
   updateProduct,
 } from "@/services/ProductService";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { FetchProductsParams } from "@/types";
+import {
+  QueryKey,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export const useCreateProduct = () => {
@@ -49,10 +55,11 @@ export const useUpdateProduct = () => {
   });
 };
 
-export const useGetAllProducts = () => {
+export const useGetAllProducts = (params: FetchProductsParams) => {
   return useQuery({
-    queryKey: ["GET_ALL_PRODUCTS"],
-    queryFn: async () => await getAllProducts(),
+    queryKey: ["GET_ALL_PRODUCTS", params],
+    queryFn: () => getAllProducts(params),
+    keepPreviousData: true,
   });
 };
 

@@ -4,6 +4,12 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
 };
 
+export interface FetchProductsParams {
+  page?: number;
+  limit?: number;
+  category?: string;
+  searchQuery?: string;
+}
 export interface IDecodedTokenProps {
   _id: string;
   name: string;

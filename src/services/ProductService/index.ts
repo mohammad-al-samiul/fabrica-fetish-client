@@ -2,6 +2,7 @@
 
 import axiosInstance from "@/config/axios.config";
 import envConfig from "@/config/envConfig";
+import { FetchProductsParams } from "@/types";
 
 export const createProduct = async (productData: FormData) => {
   try {
@@ -37,9 +38,11 @@ export const getHomeProducts = async () => {
   }
 };
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (params: FetchProductsParams = {}) => {
   try {
-    const { data } = await axiosInstance.get(`${envConfig.baseApi}/products`);
+    const { data } = await axiosInstance.get(`${envConfig.baseApi}/products`, {
+      params,
+    });
     return data;
   } catch (error: any) {
     throw new Error(error.message);
