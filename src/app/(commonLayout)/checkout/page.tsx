@@ -33,9 +33,12 @@ export default function Checkout() {
     throw new Error("CartContext is not available!");
   }
 
-  const { carts, setCarts } = cartContext;
+  const { setCarts } = cartContext;
 
-  const total = JSON.parse(localStorage.getItem("total") ?? "0");
+  let total: any;
+  useEffect(() => {
+    total = JSON.parse(localStorage.getItem("total") ?? "0");
+  }, []);
   useEffect(() => {
     const storedProducts = JSON.parse(
       localStorage.getItem("carts") ?? "[]"
@@ -50,7 +53,7 @@ export default function Checkout() {
       image: product.image,
       quantity: product.quantity,
     }));
-    const total = calculateTotalAmount(formattedProducts);
+
     setProducts(formattedProducts);
   }, []);
 
