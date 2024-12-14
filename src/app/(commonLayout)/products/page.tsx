@@ -35,6 +35,8 @@ export default function Products() {
     setCurrentPage(page);
   };
 
+  const colors = "#171717";
+
   if (isLoading) {
     return <Loading />;
   }
@@ -63,7 +65,7 @@ export default function Products() {
       </div>
 
       {/* Search Input */}
-      <div className="mb-6 flex items-center justify-center w-full">
+      <div className="mb-6 flex items-center justify-center w-full ">
         <Input
           aria-label="Search"
           classNames={{
@@ -71,7 +73,7 @@ export default function Products() {
             input: "text-sm",
           }}
           placeholder="Search..."
-          size="lg"
+          size="md"
           startContent={
             <SearchIcon className="pointer-events-none flex-shrink-0 text-base text-default-400" />
           }
@@ -97,13 +99,16 @@ export default function Products() {
       )}
 
       <div className="flex justify-center mt-6">
-        <Pagination
-          showControls
-          initialPage={1}
-          total={totalPages}
-          page={currentPage}
-          onChange={(page) => handlePageChange(page)}
-        />
+        {colors && (
+          <Pagination
+            showControls
+            initialPage={1}
+            total={totalPages}
+            page={currentPage}
+            aria-label="pagination"
+            onChange={(page) => handlePageChange(page)}
+          />
+        )}
       </div>
     </div>
   );

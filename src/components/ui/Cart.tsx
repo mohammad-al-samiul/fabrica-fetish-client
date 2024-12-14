@@ -59,7 +59,7 @@ const CartPage = () => {
 
     localStorage.setItem("carts", JSON.stringify(updatedProducts));
     setCarts(updatedProducts); // Update local state
-    router.push("/carts");
+    //router.push("/carts");
   };
 
   const handleDecrement = (id: string) => {
@@ -75,7 +75,6 @@ const CartPage = () => {
 
     localStorage.setItem("carts", JSON.stringify(updatedProducts));
     setCarts(updatedProducts); // Update local state
-    router.push("/carts");
   };
 
   const handleRemoveProduct = (id: string) => {
