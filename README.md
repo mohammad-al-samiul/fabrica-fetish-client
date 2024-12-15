@@ -37,7 +37,7 @@ Experience the live application here: [https://fabrica-fetish-client.vercel.app]
 
 ## Tech Stack 🛠️
 
-- **Frontend:** Next.js, TypeScript, Tailwind CSS, Ant Design.
+- **Frontend:** Next.js, TypeScript, Tailwind CSS, Ant Design, NextUi.
 - **Backend:** Node.js, Express.js with TypeScript, MongoDB with Mongoose.
 - **Payment Integration:** AamarPay for secure and seamless payment handling.
 - **Deployment:** Vercel for frontend hosting and a scalable cloud platform for the backend.
@@ -70,9 +70,9 @@ Follow these steps to set up the project locally:
 
 2. Navigate to the project directory:
 
-```bash
-cd fabrica-fetish-client
-```
+   ```bash
+   cd fabrica-fetish-client
+   ```
 
 3. Install the dependencies:
 
