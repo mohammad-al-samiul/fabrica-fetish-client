@@ -22,6 +22,7 @@ interface IOrderInfo {
 }
 
 export default function Checkout() {
+  const [total, setTotal] = useState(0);
   const { user } = useUser();
 
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -35,10 +36,10 @@ export default function Checkout() {
 
   const { setCarts } = cartContext;
 
-  let total: any;
   useEffect(() => {
-    total = JSON.parse(localStorage.getItem("total") ?? "0");
-  }, []);
+    const total = JSON.parse(localStorage.getItem("total") ?? "0");
+    setTotal(total);
+  }, [total]);
   useEffect(() => {
     const storedProducts = JSON.parse(
       localStorage.getItem("carts") ?? "[]"
@@ -68,7 +69,7 @@ export default function Checkout() {
       user: {
         ...data,
       },
-      totalAmount: Number(total.toFixed(2)),
+      totalAmount: Number(total),
       date: new Date().toISOString(),
     };
     //console.log(orderInfo);
